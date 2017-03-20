@@ -11,8 +11,11 @@ import okhttp3.Response;
 
 
 /**
- * 类作用：
- * Created by liubp on 16/1/10.
+ * @version V1.0
+ * @project:MyApplication
+ * @author: Admin
+ * @date: 2017-03-20 18:42
+ * @desc 获取实体类中泛型
  */
 public abstract class BaseCallBack<T> {
 

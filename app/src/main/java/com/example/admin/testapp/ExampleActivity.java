@@ -11,13 +11,17 @@ import android.view.MenuItem;
 import com.example.R;
 import com.example.base.BaseActivity;
 import com.example.model.bean.ExampleBean;
+import com.example.present.ExamplePresent;
 import com.example.present.contract.ExampleContract;
 
 import butterknife.BindView;
 import util.T;
 
 
-public class ExampleActivity extends BaseActivity implements ExampleContract.View {
+public class ExampleActivity
+        extends BaseActivity<ExamplePresent>
+        implements ExampleContract.View
+{
 
 
     @BindView(R.id.recyclerView)
@@ -31,7 +35,8 @@ public class ExampleActivity extends BaseActivity implements ExampleContract.Vie
     @Override
     protected void initViews(Bundle savedInstanceState) {
         super.initViews(savedInstanceState);
-
+        mPresenter = new ExamplePresent(this);
+        mPresenter.getDetailData("");
         //使用CollapsingToolbarLayout必须把title设置到CollapsingToolbarLayout上，设置到Toolbar上则不会显示
         CollapsingToolbarLayout mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout);
         mCollapsingToolbarLayout.setTitle("CollapsingToolbarLayout");
@@ -72,12 +77,12 @@ public class ExampleActivity extends BaseActivity implements ExampleContract.Vie
 
     @Override
     public void showError(String msg) {
-
+        T.showShort(msg);
     }
 
     @Override
     public void showContent(ExampleBean bean) {
-
+        T.showShort(bean.obj.nonProfitFound);
     }
 
     @Override

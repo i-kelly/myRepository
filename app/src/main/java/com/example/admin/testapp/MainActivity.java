@@ -10,10 +10,10 @@ import com.example.ProductCategory;
 import com.example.R;
 import com.example.admin.manager.Router;
 import com.example.base.BaseActivity;
+import com.example.model.bean.BaseBean;
+import com.example.model.bean.ExampleBean;
 import com.example.model.helper.HUDCallBack;
 import com.example.model.helper.OkHttpHelper;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Response;
+import util.L;
 import widget.MultiStateView;
 import widget.ProductCategoryListAdapter;
 import za.co.immedia.pinnedheaderlistview.PinnedHeaderListView;
@@ -111,11 +112,13 @@ public class MainActivity extends BaseActivity {
     }
 
     public void test() {
-        OkHttpHelper.getInstance().post(this, "p/p_001", null, new HUDCallBack<JSONObject>(this, 1, "") {
+        OkHttpHelper.getInstance().post("p/p_001", null, new HUDCallBack<BaseBean<ExampleBean>>("") {
 
             @Override
-            public void onSuccess(Response response, JSONObject jsonObject, int flag) {
+            public void onSuccess(Response response, BaseBean<ExampleBean> bean, int flag) {
                 Router.startExampleActivity(MainActivity.this);
+                L.e("===========================");
+                L.e(bean.data.obj.nonProfitFound);
             }
 
             @Override

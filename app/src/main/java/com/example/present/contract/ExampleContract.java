@@ -1,6 +1,5 @@
 package com.example.present.contract;
 
-import com.example.base.BasePresenter;
 import com.example.base.BaseView;
 import com.example.model.bean.ExampleBean;
 import com.example.present.IPresenter;
@@ -27,7 +26,7 @@ public interface ExampleContract {
 
     interface  Presenter extends IPresenter<View> {
 
-        void getDetailData(int id);
+        void getDetailData(String id);
 
         void getExtraData(int id);
 

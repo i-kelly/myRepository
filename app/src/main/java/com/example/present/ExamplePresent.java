@@ -2,7 +2,12 @@ package com.example.present;
 
 import com.example.base.BasePresenter;
 import com.example.model.ExampleModel;
+import com.example.model.bean.BaseBean;
+import com.example.model.bean.ExampleBean;
+import com.example.model.helper.HUDCallBack;
 import com.example.present.contract.ExampleContract;
+
+import okhttp3.Response;
 
 
 /**
@@ -10,19 +15,37 @@ import com.example.present.contract.ExampleContract;
  * @project:MyApplication
  * @author: Admin
  * @date: 2017-03-16 20:26
- * @desc  present用例
+ * @desc present用例
  */
-public class ExamplePresent extends BasePresenter<ExampleContract.View,ExampleModel> implements ExampleContract.Presenter {
+public class ExamplePresent
+        extends BasePresenter<ExampleContract.View, ExampleModel>
+        implements ExampleContract.Presenter
+{
     private static final String TAG = "ExamplePresent";
 
 
-    public ExamplePresent() {
-
+    public ExamplePresent(ExampleContract.View view) {
+        mView = view;
+        mModel = new ExampleModel();
     }
 
     @Override
-    public void getDetailData(int id) {
-        mModel.getNetData();
+    public void getDetailData(String id) {
+        mModel.getNetData(id, new HUDCallBack<BaseBean<ExampleBean>>("") {
+            @Override
+            public void onSuccess(Response response, BaseBean<ExampleBean> bean, int flag) {
+                if (mView != null) {
+                    mView.showContent(bean.data);
+                }
+            }
+
+            @Override
+            public void onError(Response response, int code, Exception e) {
+                if (mView != null) {
+                    mView.showError(response.body().toString());
+                }
+            }
+        });
     }
 
     @Override

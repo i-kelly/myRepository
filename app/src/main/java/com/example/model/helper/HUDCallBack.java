@@ -23,11 +23,9 @@ public abstract class HUDCallBack<T> extends BaseCallBack<T> {
     /**
      * 联网成功的回调
      *
-     * @param context 上下文对象
      * @param msg     加载时显示的文字 内容不为空显示为空则不显示
      */
-    public HUDCallBack(Context context, int flag, String msg) {
-        this.context = context;
+    public HUDCallBack(String msg) {
 //        kProgressHUD = new KProgressHUD(context);
         this.msg = msg;
         this.flag = flag;

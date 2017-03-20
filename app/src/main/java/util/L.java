@@ -1,7 +1,8 @@
 package util;
 
-import android.support.compat.BuildConfig;
 import android.util.Log;
+
+import com.example.BuildConfig;
 
 /**
  * 日志打印管理

@@ -1,15 +1,30 @@
 package com.example.model.bean;
 
-import java.io.Serializable;
-
-/**
- * @version V1.0
- * @project:MyApplication
- * @author: Admin
- * @date: 2017-03-20 18:42
- * @desc 基bean
+/*
+ *  @项目名：  myRepository 
+ *  @包名：    com.example.model.bean
+ *  @文件名:   BaseBean
+ *  @创建者:   Admin
+ *  @创建时间:  2017/3/20 22:45
+ *  @描述：    基类bean
  */
-public class BaseBean<T> implements Serializable {
-    private static final String TAG = "BaseBean";
-    T data;
+
+import com.google.gson.Gson;
+
+public class BaseBean<T extends Entity> {
+
+    /**
+     * message : 提交成功
+     * data : {"state":"0","obj":{"expiryNumber":"","nonProfitFound":"098195.00","isPopup":"0"},"msg":"查询成功"}
+     * code : 000
+     */
+
+    public String message;
+    public T      data;
+    public String code;
+
+    public static BaseBean objectFromData(String str) {
+
+        return new Gson().fromJson(str, BaseBean.class);
+    }
 }

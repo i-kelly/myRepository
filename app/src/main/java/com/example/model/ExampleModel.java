@@ -1,15 +1,8 @@
 package com.example.model;
 
-import com.example.base.BaseApplication;
-import com.example.model.helper.BaseCallBack;
+import com.example.model.helper.ApiManager;
+import com.example.model.helper.HUDCallBack;
 import com.example.model.helper.OkHttpHelper;
-
-import org.json.JSONObject;
-
-import java.io.IOException;
-
-import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * @version V1.0
@@ -18,32 +11,24 @@ import okhttp3.Response;
  * @date: 2017-03-20 18:35
  * @desc TODO 类作用
  */
-public class ExampleModel extends BaseModel {
+public class ExampleModel
+        extends BaseModel
+{
     private static final String TAG = "ExampleModel";
 
-    public void getNetData(){
-        OkHttpHelper.getInstance().post(BaseApplication.getInstance(), "", null, new BaseCallBack<JSONObject>() {
-            @Override
-            public void requestBefore(Request request) {
+    /**
+     * 获取网络数据
+     * @param callBack
+     */
+    public void getNetData(String id, HUDCallBack callBack) {
+        OkHttpHelper.getInstance()
+                    .post(ApiManager.EXAMPLE_URL, ApiManager.getExampleParams(id), callBack);
+    }
 
-            }
-
-            @Override
-            public void onFailure(Request request, IOException e){
-            }
-
-            @Override
-            public void onSuccess(Response response, JSONObject o, int flag) {
-            }
-
-            @Override
-            public void onError(Response response, int code, Exception e) {
-            }
-
-            @Override
-            public void onResponse(Response response) {
-            }
-        });
+    /**
+     * 获取本地数据
+     */
+    public void getLocalData() {
 
     }
 }
