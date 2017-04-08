@@ -1,4 +1,4 @@
-package com.example.admin.testapp;
+package com.example.admin.activity;
 
 import android.os.Bundle;
 import android.view.View;
@@ -9,11 +9,14 @@ import android.widget.ListView;
 import com.example.ProductCategory;
 import com.example.R;
 import com.example.admin.manager.Router;
+import com.example.admin.testapp.Product;
+import com.example.admin.testapp.ProductItemAdapter;
 import com.example.base.BaseActivity;
 import com.example.model.bean.BaseBean;
 import com.example.model.bean.ExampleBean;
 import com.example.model.helper.HUDCallBack;
 import com.example.model.helper.OkHttpHelper;
+import com.example.present.IPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,6 +112,11 @@ public class MainActivity extends BaseActivity {
         mProductItemAdapter.setItems(productCategorys);
 
 
+    }
+
+    @Override
+    protected IPresenter getPresenter() {
+        return null;
     }
 
     public void test() {

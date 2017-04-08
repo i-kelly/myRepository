@@ -1,12 +1,15 @@
 package com.example.base;
 
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.example.R;
+import com.example.present.IPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,9 +21,9 @@ import util.L;
  * @project:MyApplication
  * @author: Admin
  * @date: 2017-02-15 13:52
- * @desc
+ * @desc Activity基类
  */
-public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements BaseView {
+public abstract class BaseActivity<T extends IPresenter> extends AppCompatActivity implements BaseView {
     private static final String TAG = "BaseActivity";
     @Nullable
     @BindView(R.id.toolbar)
@@ -28,30 +31,35 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     protected T        mPresenter;
     private   Unbinder mUnBinder;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
         mUnBinder = ButterKnife.bind(this);
         initToolbar();
-        if (mPresenter != null)
+        if (mPresenter == null) {
+            mPresenter = getPresenter();
             mPresenter.attachView(this);
+        }
         BaseMainApp.getInstance().addActivity(this);
         initViews(savedInstanceState);
     }
-
 
     protected void initViews(Bundle savedInstanceState) {
 
     }
 
+    protected abstract T getPresenter();
+
+    @CallSuper
     @Override
     protected void onResume() {
         super.onResume();
-        L.i("--------------------------------当前运行的类：" + getClass().getName());
+        L.i("onResume：" + getClass().getName());
     }
 
-    protected abstract int getLayoutId();
+    protected abstract @LayoutRes int getLayoutId();
 
     protected void initToolbar() {
         if (mToolbar != null) {

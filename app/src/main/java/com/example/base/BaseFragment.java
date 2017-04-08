@@ -1,4 +1,4 @@
-package com.example.nav;
+package com.example.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,7 +24,7 @@ import util.L;
  * @project:MyApplication
  * @author: Admin
  * @date: 2017-02-16 11:33
- * @desc TODO 类作用
+ * @desc Fragment基类
  */
 public abstract class BaseFragment extends Fragment {
     private static final String TAG = "BaseFragment";
@@ -51,7 +51,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        L.i("--------------------------------当前运行的类：" + getClass().getName());
+        L.i("onResume：" + getClass().getName());
     }
 
     protected abstract int getLayoutResId();

@@ -8,10 +8,9 @@ import com.example.present.IPresenter;
  * @project:MyApplication
  * @author: Admin
  * @date: 2017-03-16 20:44
- * @desc TODO 类作用
+ * @desc Presenter基类
  */
-public class BasePresenter<T extends BaseView, M extends BaseModel> implements IPresenter<T> {
-    private static final String TAG = "BasePresenter";
+public abstract class BasePresenter<T extends BaseView, M extends BaseModel> implements IPresenter<T> {
 
     protected T mView;
     protected M mModel;
@@ -19,11 +18,13 @@ public class BasePresenter<T extends BaseView, M extends BaseModel> implements I
     @Override
     public void attachView(T view) {
         this.mView = view;
+        this.mModel = getModel();
     }
-
 
     @Override
     public void detachView() {
         this.mView = null;
     }
+
+    protected abstract M getModel();
 }

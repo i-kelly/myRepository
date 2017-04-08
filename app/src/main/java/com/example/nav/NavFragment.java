@@ -5,13 +5,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 
 import com.example.R;
-import com.example.admin.testapp.ContentView;
+import com.example.base.BaseFragment;
 import com.example.fragment.FourFragment;
 import com.example.fragment.OneFragment;
 import com.example.fragment.ThreeFragment;

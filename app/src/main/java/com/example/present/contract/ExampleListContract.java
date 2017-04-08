@@ -7,7 +7,11 @@ import com.example.present.IPresenter;
 import java.util.List;
 
 /**
- * Created by codeest on 16/11/27.
+ * @version V1.0
+ * @project:MyApplication
+ * @author: Admin
+ * @date: 2017-03-20 15:39
+ * @desc 契约类（列表数据）
  */
 
 public interface ExampleListContract {

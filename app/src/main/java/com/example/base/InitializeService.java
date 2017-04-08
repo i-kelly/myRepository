@@ -16,7 +16,11 @@ import util.SystemUtil;
 
 
 /**
- * Created by codeest on 2017/2/12.
+ * @version V1.0
+ * @project:MyApplication
+ * @author: Admin
+ * @date: 2017-03-20 15:39
+ * @desc 后台服务初始化
  */
 
 public class InitializeService extends IntentService {

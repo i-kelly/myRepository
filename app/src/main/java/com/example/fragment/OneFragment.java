@@ -1,8 +1,7 @@
 package com.example.fragment;
 
 import com.example.R;
-import com.example.admin.testapp.ContentView;
-import com.example.nav.BaseFragment;
+import com.example.base.BaseFragment;
 
 /**
  * @version V1.0

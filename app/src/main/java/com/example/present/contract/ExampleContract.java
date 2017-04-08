@@ -9,7 +9,7 @@ import com.example.present.IPresenter;
  * @project:MyApplication
  * @author: Admin
  * @date: 2017-03-16 20:23
- * @desc TODO 类作用
+ * @desc 契约类
  */
 public interface ExampleContract {
 

@@ -19,15 +19,8 @@ import okhttp3.Response;
  */
 public class ExamplePresent
         extends BasePresenter<ExampleContract.View, ExampleModel>
-        implements ExampleContract.Presenter
-{
-    private static final String TAG = "ExamplePresent";
+        implements ExampleContract.Presenter {
 
-
-    public ExamplePresent(ExampleContract.View view) {
-        mView = view;
-        mModel = new ExampleModel();
-    }
 
     @Override
     public void getDetailData(String id) {
@@ -54,4 +47,8 @@ public class ExamplePresent
     }
 
 
+    @Override
+    protected ExampleModel getModel() {
+        return new ExampleModel();
+    }
 }

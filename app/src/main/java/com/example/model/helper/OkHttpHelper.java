@@ -47,9 +47,9 @@ public class OkHttpHelper {
     private OkHttpHelper() {
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder().connectTimeout(60,
-                                                                                 TimeUnit.SECONDS)
-                                                                 .writeTimeout(30, TimeUnit.SECONDS)
-                                                                 .readTimeout(30, TimeUnit.SECONDS);
+                TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS);
         okHttpClient = builder.build();
 
         gson = new Gson();
@@ -68,8 +68,7 @@ public class OkHttpHelper {
     /**
      * get方式联网请求数据
      */
-    public void get(String relativeUrl, JSONObject params, BaseCallBack baseCallBack)
-    {
+    public void get(String relativeUrl, JSONObject params, BaseCallBack baseCallBack) {
         try {
             Request request = buildRequest(getAbsoluteUrl(relativeUrl), params, HttpMethodType.GET);
             doRequest(request, baseCallBack);
@@ -82,12 +81,11 @@ public class OkHttpHelper {
     /**
      * post方式联网请求数据
      */
-    public void post(String relativeUrl, JSONObject params, BaseCallBack baseCallBack)
-    {
+    public void post(String relativeUrl, JSONObject params, BaseCallBack baseCallBack) {
         try {
             Request request = buildRequest(getAbsoluteUrl(relativeUrl),
-                                           params,
-                                           HttpMethodType.POST);
+                    params,
+                    HttpMethodType.POST);
             doRequest(request, baseCallBack);
         } catch (Exception e) {
             e.printStackTrace();
@@ -98,13 +96,12 @@ public class OkHttpHelper {
     public void postNoEncrypt(Context context,
                               String relativeUrl,
                               JSONObject params,
-                              BaseCallBack baseCallBack)
-    {
+                              BaseCallBack baseCallBack) {
         try {
             Request request = buildRequestNo(context,
-                                             getAbsoluteUrl(relativeUrl),
-                                             params,
-                                             HttpMethodType.POST);
+                    getAbsoluteUrl(relativeUrl),
+                    params,
+                    HttpMethodType.POST);
             doRequest(request, baseCallBack);
         } catch (Exception e) {
             e.printStackTrace();
@@ -114,8 +111,7 @@ public class OkHttpHelper {
     private static Request buildRequestNo(Context context,
                                           String url,
                                           JSONObject params,
-                                          HttpMethodType httpMethodType)
-    {
+                                          HttpMethodType httpMethodType) {
         try {
 
             Request.Builder builder = new Request.Builder();
@@ -169,53 +165,51 @@ public class OkHttpHelper {
         baseCallBack.requestBefore(request);
 
         okHttpClient.newCall(request)
-                    .enqueue(new Callback() {
-                        @Override
-                        public void onFailure(Call call, IOException e) {
-                            baseCallBack.onFailure(request, e);
-                        }
+                .enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        baseCallBack.onFailure(request, e);
+                    }
 
-                        @Override
-                        public void onResponse(Call call, Response response)
-                                throws IOException
-                        {
+                    @Override
+                    public void onResponse(Call call, Response response)
+                            throws IOException {
 
 
-                            baseCallBack.onResponse(response);
-                            if (response.isSuccessful()) {
-                                try {
-                                    String resStr = response.body()
-                                                            .string();
-                                    Logger.json(resStr);
-                                    JSONObject jsonObject = new JSONObject(resStr);
-                                    if (!jsonObject.getString("code")
-                                                   .equals("000"))
-                                    {
-                                        callBackFail(jsonObject.getString("message"));
-                                        return;
-                                    }
-                                    if (baseCallBack.mType == String.class) {
-
-                                        callBackSuccess(response, baseCallBack, resStr);
-                                    } else if (baseCallBack.mType == JSONObject.class) {
-
-                                        callBackSuccess(response, baseCallBack, jsonObject);
-                                    } else {
-
-                                        Object object = gson.fromJson(resStr, baseCallBack.mType);
-                                        callBackSuccess(response, baseCallBack, object);
-                                    }
-
-                                } catch (JsonSyntaxException e) {
-                                    e.printStackTrace();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                        baseCallBack.onResponse(response);
+                        if (response.isSuccessful()) {
+                            try {
+                                String resStr = response.body()
+                                        .string();
+                                Logger.json(resStr);
+                                JSONObject jsonObject = new JSONObject(resStr);
+                                if (!jsonObject.getString("code")
+                                        .equals("000")) {
+                                    callBackFail(jsonObject.getString("message"));
+                                    return;
                                 }
-                            } else {
-                                callBackError(response, baseCallBack);
+                                if (baseCallBack.mType == String.class) {
+
+                                    callBackSuccess(response, baseCallBack, resStr);
+                                } else if (baseCallBack.mType == JSONObject.class) {
+
+                                    callBackSuccess(response, baseCallBack, jsonObject);
+                                } else {
+
+                                    Object object = gson.fromJson(resStr, baseCallBack.mType);
+                                    callBackSuccess(response, baseCallBack, object);
+                                }
+
+                            } catch (JsonSyntaxException e) {
+                                e.printStackTrace();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
+                        } else {
+                            callBackError(response, baseCallBack);
                         }
-                    });
+                    }
+                });
     }
 
     /**
@@ -225,8 +219,7 @@ public class OkHttpHelper {
      * @return 联网所需的request
      */
     private Request buildRequest(String url, JSONObject params, HttpMethodType httpMethodType)
-            throws Exception
-    {
+            throws Exception {
 
         String si = null;
         String pa = null;
@@ -240,9 +233,7 @@ public class OkHttpHelper {
 
         Iterator<String> it = paObject.keys();
         while (it.hasNext()) {
-            String key = it.next()
-                           .toString();
-            //            param.put(key, DetectTool.chinaToUnicode(paObject.getString(key)));
+            String key = it.next();
             param.put(key, paObject.getString(key));
         }
         L.i("params: " + paObject);
@@ -256,11 +247,7 @@ public class OkHttpHelper {
         builder.url(url);
 
         if (httpMethodType == HttpMethodType.GET) {
-            if (null != params) {
-
-                url += "si=" + si + "&pa=" + pa;
-            }
-
+            url += "si=" + si + "&pa=" + pa;
             builder.url(url);
             builder.get();
             L.i("OkHttp GET url:" + url);
@@ -289,8 +276,7 @@ public class OkHttpHelper {
 
     private void callBackSuccess(final Response response,
                                  final BaseCallBack baseCallBack,
-                                 final Object object)
-    {
+                                 final Object object) {
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -308,8 +294,7 @@ public class OkHttpHelper {
         });
     }
 
-    private void callBackError(final Response response, final BaseCallBack baseCallBack)
-    {
+    private void callBackError(final Response response, final BaseCallBack baseCallBack) {
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -351,18 +336,15 @@ public class OkHttpHelper {
      */
     private static String getAbsoluteUrl(String relativeUrl) {
         return BaseMainApp.getInstance()
-                          .getMainHostUrl(BaseApplication.getInstance()) + relativeUrl;
+                .getMainHostUrl(BaseApplication.getInstance()) + relativeUrl;
     }
 
     private static JSONObject getPaObject(JSONObject params)
-            throws JSONException
-    {
+            throws JSONException {
         JSONObject       allDataObject = new JSONObject();
         Iterator<String> it            = params.keys();
         while (it.hasNext()) {
-            String key = it.next()
-                           .toString();
-            //            allDataObject.put(key, DetectTool.chinaToUnicode(params.getString(key)));
+            String key = it.next();
             allDataObject.put(key, params.getString(key));
         }
 
