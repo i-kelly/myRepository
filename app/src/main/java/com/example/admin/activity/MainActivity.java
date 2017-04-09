@@ -12,10 +12,7 @@ import com.example.admin.manager.Router;
 import com.example.admin.testapp.Product;
 import com.example.admin.testapp.ProductItemAdapter;
 import com.example.base.BaseActivity;
-import com.example.model.bean.BaseBean;
-import com.example.model.bean.ExampleBean;
-import com.example.model.helper.HUDCallBack;
-import com.example.model.helper.OkHttpHelper;
+import com.example.present.ExamplePresent;
 import com.example.present.IPresenter;
 
 import java.util.ArrayList;
@@ -24,13 +21,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.Response;
-import util.L;
 import widget.MultiStateView;
 import widget.ProductCategoryListAdapter;
 import za.co.immedia.pinnedheaderlistview.PinnedHeaderListView;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity
+        extends BaseActivity
+{
 
     @BindView(R.id.lv_product_category)
     ListView             mCategoryListView;
@@ -87,7 +84,7 @@ public class MainActivity extends BaseActivity {
 
         // 商品的列表
         mProductItemAdapter = new ProductItemAdapter(this);
-//        mProductItemAdapter.setAnimTargetView(mCartLogoImg);
+        //        mProductItemAdapter.setAnimTargetView(mCartLogoImg);
         mProductListView.setAdapter(mProductItemAdapter);
         mProductListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -95,7 +92,11 @@ public class MainActivity extends BaseActivity {
             }
 
             @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            public void onScroll(AbsListView view,
+                                 int firstVisibleItem,
+                                 int visibleItemCount,
+                                 int totalItemCount)
+            {
                 if (isClickTrigger) {
                     isClickTrigger = false;
                 } else {
@@ -105,7 +106,7 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-//        mMultiStateView.setState(MultiStateView.STATE_LOADING);
+        //        mMultiStateView.setState(MultiStateView.STATE_LOADING);
         mMultiStateView.setState(MultiStateView.STATE_CONTENT);
 
         mCategoryItemAdapter.setItems(productCategorys);
@@ -116,24 +117,12 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected IPresenter getPresenter() {
-        return null;
+        return new ExamplePresent();
     }
 
     public void test() {
-        OkHttpHelper.getInstance().post("p/p_001", null, new HUDCallBack<BaseBean<ExampleBean>>("") {
-
-            @Override
-            public void onSuccess(Response response, BaseBean<ExampleBean> bean, int flag) {
-                Router.startExampleActivity(MainActivity.this);
-                L.e("===========================");
-                L.e(bean.data.obj.nonProfitFound);
-            }
-
-            @Override
-            public void onError(Response response, int code, Exception e) {
-
-            }
-        });
+//        Router.startExampleActivity(MainActivity.this);
+        Router.startMultiTypeActivity(MainActivity.this);
     }
 
     @Override

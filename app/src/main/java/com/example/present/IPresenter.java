@@ -1,11 +1,11 @@
 package com.example.present;
 
-import com.example.base.BaseView;
+import com.example.base.IView;
 
 /**
  * Presenter基类
  */
-public interface IPresenter<T extends BaseView>{
+public interface IPresenter<T extends IView>{
 
     void attachView(T view);
 

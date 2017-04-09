@@ -3,7 +3,7 @@ package com.example.base;
 /**
  * View基类
  */
-public interface BaseView {
+public interface IView {
 
     void showError(String msg);
 

@@ -2,12 +2,9 @@ package com.example.present;
 
 import com.example.base.BasePresenter;
 import com.example.model.ExampleModel;
-import com.example.model.bean.BaseBean;
+import com.example.model.GetCallBack;
 import com.example.model.bean.ExampleBean;
-import com.example.model.helper.HUDCallBack;
 import com.example.present.contract.ExampleContract;
-
-import okhttp3.Response;
 
 
 /**
@@ -19,27 +16,15 @@ import okhttp3.Response;
  */
 public class ExamplePresent
         extends BasePresenter<ExampleContract.View, ExampleModel>
-        implements ExampleContract.Presenter {
+        implements ExampleContract.Presenter, GetCallBack.GetTaskCallback<ExampleBean>
+{
 
 
     @Override
-    public void getDetailData(String id) {
-        mModel.getNetData(id, new HUDCallBack<BaseBean<ExampleBean>>("") {
-            @Override
-            public void onSuccess(Response response, BaseBean<ExampleBean> bean, int flag) {
-                if (mView != null) {
-                    mView.showContent(bean.data);
-                }
-            }
-
-            @Override
-            public void onError(Response response, int code, Exception e) {
-                if (mView != null) {
-                    mView.showError(response.body().toString());
-                }
-            }
-        });
+    public void getDetailData() {
+        mModel.getData(this);
     }
+
 
     @Override
     public void getExtraData(int id) {
@@ -50,5 +35,39 @@ public class ExamplePresent
     @Override
     protected ExampleModel getModel() {
         return new ExampleModel();
+    }
+
+
+    @Override
+    public String getParams() {
+        return mView.getText();
+    }
+
+
+    @Override
+    public void onTaskLoaded(ExampleBean bean) {
+        if (mView != null) {
+            mView.showContent(bean);
+        }
+    }
+
+
+    @Override
+    public void onDataNotAvailable() {
+        if (mView != null) {
+            mView.showError("");
+        }
+    }
+
+
+    @Override
+    public void onSuccess(ExampleBean bean) {
+
+    }
+
+
+    @Override
+    public void onFailure(String msg) {
+
     }
 }

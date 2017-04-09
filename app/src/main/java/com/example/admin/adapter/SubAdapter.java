@@ -18,22 +18,31 @@ import com.example.R;
  * @date: 2017-04-08 16:47
  * @desc TODO 类作用
  */
-public class SubAdapter extends DelegateAdapter.Adapter<MainViewHolder> {
+public class SubAdapter
+        extends DelegateAdapter.Adapter<MainViewHolder>
+{
 
-    private Context mContext;
+    protected Context mContext;
 
-    private LayoutHelper mLayoutHelper;
+    protected LayoutHelper mLayoutHelper;
 
 
-    private VirtualLayoutManager.LayoutParams mLayoutParams;
-    private int mCount = 0;
+    protected VirtualLayoutManager.LayoutParams mLayoutParams;
+    protected int mCount = 0;
 
 
     public SubAdapter(Context context, LayoutHelper layoutHelper, int count) {
-        this(context, layoutHelper, count, new VirtualLayoutManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
+        this(context,
+             layoutHelper,
+             count,
+             new VirtualLayoutManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
     }
 
-    public SubAdapter(Context context, LayoutHelper layoutHelper, int count, @NonNull VirtualLayoutManager.LayoutParams layoutParams) {
+    public SubAdapter(Context context,
+                      LayoutHelper layoutHelper,
+                      int count,
+                      @NonNull VirtualLayoutManager.LayoutParams layoutParams)
+    {
         this.mContext = context;
         this.mLayoutHelper = layoutHelper;
         this.mCount = count;
@@ -47,19 +56,22 @@ public class SubAdapter extends DelegateAdapter.Adapter<MainViewHolder> {
 
     @Override
     public MainViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MainViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item, parent, false));
+        return new MainViewHolder(LayoutInflater.from(mContext)
+                                                .inflate(R.layout.item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(MainViewHolder holder, int position) {
         // only vertical
-        holder.itemView.setLayoutParams(
-                new VirtualLayoutManager.LayoutParams(mLayoutParams));
+        holder.itemView.setLayoutParams(new VirtualLayoutManager.LayoutParams(mLayoutParams));
     }
 
 
     @Override
-    protected void onBindViewHolderWithOffset(MainViewHolder holder, int position, int offsetTotal) {
+    protected void onBindViewHolderWithOffset(MainViewHolder holder,
+                                              int position,
+                                              int offsetTotal)
+    {
         ((TextView) holder.itemView.findViewById(R.id.title)).setText(Integer.toString(offsetTotal));
     }
 

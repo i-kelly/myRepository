@@ -1,8 +1,10 @@
 package com.example.model;
 
+import com.example.model.bean.BaseBean;
+import com.example.model.bean.ExampleBean;
 import com.example.model.helper.ApiManager;
-import com.example.model.helper.HUDCallBack;
-import com.example.model.helper.OkHttpHelper;
+
+import org.json.JSONObject;
 
 /**
  * @version V1.0
@@ -12,23 +14,17 @@ import com.example.model.helper.OkHttpHelper;
  * @desc Model用例
  */
 public class ExampleModel
-        extends BaseModel {
+        extends BaseModel<BaseBean<ExampleBean>, GetCallBack.GetTaskCallback<ExampleBean>>
+{
     private static final String TAG = "ExampleModel";
 
-    /**
-     * 获取网络数据
-     *
-     * @param callBack
-     */
-    public void getNetData(String id, HUDCallBack callBack) {
-        OkHttpHelper.getInstance()
-                .post(ApiManager.EXAMPLE_URL, ApiManager.getExampleParams(id), callBack);
+    @Override
+    protected String getRelativeUrl() {
+        return ApiManager.Url.EXAMPLE_URL;
     }
 
-    /**
-     * 获取本地数据
-     */
-    public void getLocalData() {
-
+    @Override
+    protected JSONObject getRequestParams() {
+        return ApiManager.getExampleParams(mCallBack.getParams());
     }
 }

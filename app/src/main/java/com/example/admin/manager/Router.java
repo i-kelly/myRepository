@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.example.admin.activity.ExampleActivity;
+import com.example.admin.activity.MultiTypeActivity;
 import com.example.base.InitializeService;
 
 /**
@@ -34,6 +35,15 @@ public class Router {
      */
     public static void startExampleActivity(Context context) {
         Intent intent = new Intent(context, ExampleActivity.class);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 跳转multitype页面
+     * @param context
+     */
+    public static void startMultiTypeActivity(Context context) {
+        Intent intent = new Intent(context, MultiTypeActivity.class);
         context.startActivity(intent);
     }
 

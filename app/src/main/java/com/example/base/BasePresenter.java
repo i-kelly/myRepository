@@ -1,6 +1,6 @@
 package com.example.base;
 
-import com.example.model.BaseModel;
+import com.example.model.IModel;
 import com.example.present.IPresenter;
 
 /**
@@ -10,7 +10,7 @@ import com.example.present.IPresenter;
  * @date: 2017-03-16 20:44
  * @desc Presenter基类
  */
-public abstract class BasePresenter<T extends BaseView, M extends BaseModel> implements IPresenter<T> {
+public abstract class BasePresenter<T extends IView, M extends IModel> implements IPresenter<T> {
 
     protected T mView;
     protected M mModel;

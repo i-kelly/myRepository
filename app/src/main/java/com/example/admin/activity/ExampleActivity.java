@@ -34,7 +34,7 @@ public class ExampleActivity
     @Override
     protected void initViews(Bundle savedInstanceState) {
         super.initViews(savedInstanceState);
-        mPresenter.getDetailData("");
+        mPresenter.getDetailData();
         //使用CollapsingToolbarLayout必须把title设置到CollapsingToolbarLayout上，设置到Toolbar上则不会显示
         CollapsingToolbarLayout mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout);
         mCollapsingToolbarLayout.setTitle("CollapsingToolbarLayout");
@@ -96,5 +96,10 @@ public class ExampleActivity
     @Override
     public void fail() {
 
+    }
+
+    @Override
+    public String getText() {
+        return "1";
     }
 }

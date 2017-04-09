@@ -1,7 +1,7 @@
 package com.example.present.contract;
 
 
-import com.example.base.BaseView;
+import com.example.base.IView;
 import com.example.present.IPresenter;
 
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
 
 public interface ExampleListContract {
 
-    interface View<T> extends BaseView {
+    interface View<T> extends IView {
 
         void showContent(List<T> bean);
 

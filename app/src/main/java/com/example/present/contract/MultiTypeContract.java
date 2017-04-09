@@ -1,11 +1,10 @@
 package com.example.present.contract;
 
-import com.example.base.BaseView;
-import com.example.model.bean.AdBean;
-import com.example.model.bean.BannerBean;
-import com.example.model.bean.BrandBean;
-import com.example.model.bean.ExampleBean;
+import com.example.base.IView;
+import com.example.model.bean.MultiTypeBean;
 import com.example.present.IPresenter;
+
+import java.util.List;
 
 /**
  * @version V1.0
@@ -16,13 +15,18 @@ import com.example.present.IPresenter;
  */
 public interface MultiTypeContract {
 
-    interface View extends BaseView {
+    interface View
+            extends IView
+    {
 
-        void showBanner(BannerBean bean);
 
-        void showBrandList(BrandBean bean);
+        void showBanner(List<MultiTypeBean.ObjBean.BannerListBean> bean);
 
-        void showAdList(AdBean bean);
+        void showAdList(List<MultiTypeBean.ObjBean.AdHomePageListBean> bean);
+
+        void showRdList(List<MultiTypeBean.ObjBean.RdProductListBean> bean);
+
+        void showBrandList(List<MultiTypeBean.ObjBean.BrandHomePageListBean> bean);
 
         void onSuccess();
 
@@ -31,7 +35,9 @@ public interface MultiTypeContract {
 
     }
 
-    interface Presenter extends IPresenter<View> {
+    interface Presenter
+            extends IPresenter<View>
+    {
 
         void getData();
 

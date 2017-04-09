@@ -23,7 +23,7 @@ import util.L;
  * @date: 2017-02-15 13:52
  * @desc Activity基类
  */
-public abstract class BaseActivity<T extends IPresenter> extends AppCompatActivity implements BaseView {
+public abstract class BaseActivity<T extends IPresenter> extends AppCompatActivity implements IView {
     private static final String TAG = "BaseActivity";
     @Nullable
     @BindView(R.id.toolbar)
