@@ -9,48 +9,33 @@ package com.example.present;
  *  @描述：    多类型页面presenter
  */
 
+import com.example.admin.constants.Constants;
 import com.example.base.BasePresenter;
-import com.example.model.GetCallBack;
-import com.example.model.MultiTypeModel;
 import com.example.model.bean.MultiTypeBean;
+import com.example.model.helper.DataManager;
+import com.example.model.helper.HUDCallBack;
 import com.example.present.contract.MultiTypeContract;
 
+
 public class MultiTypePresenter
-        extends BasePresenter<MultiTypeContract.View, MultiTypeModel>
-        implements MultiTypeContract.Presenter, GetCallBack.GetTasksCallback<MultiTypeBean>
-{
-    @Override
-    protected MultiTypeModel getModel() {
-        return new MultiTypeModel();
-    }
+        extends BasePresenter<MultiTypeContract.View>
+        implements MultiTypeContract.Presenter {
 
     @Override
     public void getData() {
-        mModel.getData(this);
+        DataManager.getInstance()
+                   .getData(new HUDCallBack<MultiTypeBean>(this, Constants.SIIGEE) {
+                       @Override
+                       public void onSuccess(MultiTypeBean bean) {
+                           if (isViewAttached()) {
+                               getView().showBanner(bean.obj.bannerList);
+                               getView().showAdList(bean.obj.adHomePageList);
+                               getView().showBrandList(bean.obj.brandHomePageList);
+                               getView().showRdList(bean.obj.rdProductList); getView().onSuccess();
+                           }
+                       }
+                   });
     }
 
 
-    @Override
-    public void onSuccess(MultiTypeBean bean) {
-        mView.showBanner(bean.obj.bannerList);
-        mView.showAdList(bean.obj.adHomePageList);
-        mView.showBrandList(bean.obj.brandHomePageList);
-        mView.showRdList(bean.obj.rdProductList);
-        mView.onSuccess();
-    }
-
-    @Override
-    public void onFailure(String msg) {
-        mView.showError(msg);
-    }
-
-    @Override
-    public void onTaskLoaded(MultiTypeBean bean) {
-
-    }
-
-    @Override
-    public void onDataNotAvailable() {
-
-    }
 }

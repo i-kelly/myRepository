@@ -1,9 +1,6 @@
 package com.example.present;
 
 import com.example.base.BasePresenter;
-import com.example.model.ExampleModel;
-import com.example.model.GetCallBack;
-import com.example.model.bean.ExampleBean;
 import com.example.present.contract.ExampleContract;
 
 
@@ -15,59 +12,29 @@ import com.example.present.contract.ExampleContract;
  * @desc present用例
  */
 public class ExamplePresent
-        extends BasePresenter<ExampleContract.View, ExampleModel>
-        implements ExampleContract.Presenter, GetCallBack.GetTaskCallback<ExampleBean>
-{
+        extends BasePresenter<ExampleContract.View>
+        implements ExampleContract.Presenter {
 
 
     @Override
     public void getDetailData() {
-        mModel.getData(this);
     }
 
 
     @Override
     public void getExtraData(int id) {
+        if (isViewAttached()) {
+            //            return getView().getText();
+        }
 
     }
 
-
     @Override
-    protected ExampleModel getModel() {
-        return new ExampleModel();
-    }
-
-
-    @Override
-    public String getParams() {
-        return mView.getText();
-    }
-
-
-    @Override
-    public void onTaskLoaded(ExampleBean bean) {
-        if (mView != null) {
-            mView.showContent(bean);
+    public void onFailure(String msg, int tag) {
+        if (isViewAttached()) {
+            getView().showError("");
         }
     }
 
 
-    @Override
-    public void onDataNotAvailable() {
-        if (mView != null) {
-            mView.showError("");
-        }
-    }
-
-
-    @Override
-    public void onSuccess(ExampleBean bean) {
-
-    }
-
-
-    @Override
-    public void onFailure(String msg) {
-
-    }
 }

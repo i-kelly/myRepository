@@ -8,7 +8,7 @@ package com.example.model;
  * @date: 2017-03-20 15:35
  * @desc model层 接口
  */
-public interface IModel<C extends CallBack> {
+public interface IModel {
 
-    void getData(C callBack);
+   <T> void getData(int flag, IResult IResult);
 }

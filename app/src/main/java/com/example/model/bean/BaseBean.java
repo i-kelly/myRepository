@@ -9,9 +9,7 @@ package com.example.model.bean;
  *  @描述：    基类bean
  */
 
-import com.google.gson.Gson;
-
-public class BaseBean<T extends Entity> {
+public class BaseBean<T> {
 
     /**
      * message : 提交成功
@@ -23,8 +21,27 @@ public class BaseBean<T extends Entity> {
     public T      data;
     public String code;
 
-    public static BaseBean objectFromData(String str) {
+    public String getMessage() {
+        return message;
+    }
 
-        return new Gson().fromJson(str, BaseBean.class);
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public <K> K getData() {
+        return (K) message;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

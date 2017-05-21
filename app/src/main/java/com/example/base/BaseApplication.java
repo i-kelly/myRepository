@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.example.admin.manager.Router;
 
+import cn.bmob.v3.Bmob;
+
 
 /**
  * @version V1.0
@@ -29,5 +31,7 @@ public class BaseApplication extends Application {
 
         //在子线程中初始化
         Router.startInitializeService(this);
+
+        Bmob.initialize(this, "8a1ece2588c0b76a580631608d3943ad");
     }
 }

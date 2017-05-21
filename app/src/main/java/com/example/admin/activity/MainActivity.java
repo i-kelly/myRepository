@@ -12,6 +12,7 @@ import com.example.admin.manager.Router;
 import com.example.admin.testapp.Product;
 import com.example.admin.testapp.ProductItemAdapter;
 import com.example.base.BaseActivity;
+import com.example.model.bean.Person;
 import com.example.present.ExamplePresent;
 import com.example.present.IPresenter;
 
@@ -21,6 +22,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
+import util.T;
 import widget.MultiStateView;
 import widget.ProductCategoryListAdapter;
 import za.co.immedia.pinnedheaderlistview.PinnedHeaderListView;
@@ -138,7 +142,17 @@ public class MainActivity
     }
 
     @Override
+    public void onSuccess() {
+
+    }
+
+    @Override
     public void showError(String msg) {
+
+    }
+
+    @Override
+    public void showLoading() {
 
     }
 }

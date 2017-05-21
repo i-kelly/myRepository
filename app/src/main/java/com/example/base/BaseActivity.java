@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.example.R;
 import com.example.present.IPresenter;
+import com.kaopiz.kprogresshud.KProgressHUD;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,32 +19,30 @@ import util.L;
 
 /**
  * @version V1.0
- * @project:MyApplication
+ * @project: MyApplication
  * @author: Admin
  * @date: 2017-02-15 13:52
  * @desc Activity基类
  */
-public abstract class BaseActivity<T extends IPresenter> extends AppCompatActivity implements IView {
+public abstract class BaseActivity<T extends IPresenter>
+        extends AppCompatActivity
+        implements IView {
     private static final String TAG = "BaseActivity";
     @Nullable
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    protected T        mPresenter;
-    private   Unbinder mUnBinder;
+    protected T            mPresenter;
+    private   Unbinder     mUnBinder;
+    private   KProgressHUD mKProgressHUD;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(getLayoutId());
-        mUnBinder = ButterKnife.bind(this);
-        initToolbar();
-        if (mPresenter == null) {
-            mPresenter = getPresenter();
-            mPresenter.attachView(this);
-        }
-        BaseMainApp.getInstance().addActivity(this);
-        initViews(savedInstanceState);
+        super.onCreate(savedInstanceState); setContentView(getLayoutId());
+        mUnBinder = ButterKnife.bind(this); initToolbar(); if (mPresenter == null) {
+            mPresenter = getPresenter(); mPresenter.attachView(this);
+        } BaseMainApp.getInstance()
+                     .addActivity(this); initViews(savedInstanceState);
     }
 
     protected void initViews(Bundle savedInstanceState) {
@@ -55,11 +54,12 @@ public abstract class BaseActivity<T extends IPresenter> extends AppCompatActivi
     @CallSuper
     @Override
     protected void onResume() {
-        super.onResume();
-        L.i("onResume：" + getClass().getName());
+        super.onResume(); L.i("onResume：" + getClass().getName());
     }
 
-    protected abstract @LayoutRes int getLayoutId();
+    protected abstract
+    @LayoutRes
+    int getLayoutId();
 
     protected void initToolbar() {
         if (mToolbar != null) {
@@ -69,7 +69,7 @@ public abstract class BaseActivity<T extends IPresenter> extends AppCompatActivi
             //设置默认的标题不显示
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             // App Logo
-//            mToolbar.setLogo(R.drawable.ic_right);
+            //            mToolbar.setLogo(R.drawable.ic_right);
             // Title
             mToolbar.setTitle("My Title");
             //设置主标题颜色
@@ -118,12 +118,33 @@ public abstract class BaseActivity<T extends IPresenter> extends AppCompatActivi
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
-        if (mPresenter != null)
-            mPresenter.detachView();
-        mUnBinder.unbind();
-        BaseMainApp.getInstance().removeActivity(this);
+        super.onDestroy(); if (mPresenter != null) { mPresenter.detachView(); } mUnBinder.unbind();
+        BaseMainApp.getInstance()
+                   .removeActivity(this);
     }
 
 
+    @Override
+    public void onSuccess() {
+//        if (mKProgressHUD != null) { mKProgressHUD.dismiss(); }
+    }
+
+    @Override
+    public void showError(String msg) {
+//        util.T.showShort(msg);
+    }
+
+    @Override
+    public void showLoading() {
+        if (mKProgressHUD == null) {
+            mKProgressHUD = KProgressHUD.create(this)
+                                        .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                                        .setLabel("正在加载中...")
+                                        .setDetailsLabel("Downloading data")
+                                        .setCancellable(true)
+                                        .setAnimationSpeed(2)
+                                        .setDimAmount(0.5f)
+                                        .show();
+        }
+    }
 }

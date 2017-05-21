@@ -11,8 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.R;
-import com.example.base.BaseActivity;
-import com.example.base.InitializeService;
 import com.squareup.leakcanary.RefWatcher;
 
 import butterknife.BindView;
@@ -21,7 +19,7 @@ import util.L;
 
 /**
  * @version V1.0
- * @project:MyApplication
+ * @project: MyApplication
  * @author: Admin
  * @date: 2017-02-16 11:33
  * @desc Fragment基类

@@ -159,4 +159,10 @@ public class ConstUtils {
     public static final String REGEX_NEGATIVE_FLOAT       = "^-[1-9]\\d*\\.\\d*|-0\\.\\d*[1-9]\\d*$";
 
     /************** If u want more please visit http://toutiao.com/i6231678548520731137/ **************/
+    //数字表达式REGEX_
+    public final static String REGEX_NUMBER  = "^[0-9]*$";
+    //大写字母表达式REGEX_
+    public final static String REGEX_UPCHAR  = "^[A-Z]+$";
+    //小写字母表达式REGEX_
+    public final static String REGEX_LOWCHAR = "^[a-z]+$";
 }

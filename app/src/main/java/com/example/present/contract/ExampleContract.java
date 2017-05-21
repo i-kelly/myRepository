@@ -19,10 +19,6 @@ public interface ExampleContract {
 
         void showContent(ExampleBean bean);
 
-        void onSuccess();
-
-        void fail();
-
         String getText();
 
 

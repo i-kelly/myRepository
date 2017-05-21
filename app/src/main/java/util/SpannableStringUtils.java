@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.text.Layout.Alignment;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
 import android.text.style.AlignmentSpan;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.BulletSpan;
@@ -30,7 +31,6 @@ import android.text.style.SuperscriptSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
-
 
 import com.example.base.BaseApplication;
 
@@ -73,12 +73,12 @@ public class SpannableStringUtils {
         private int quoteColor;
 
         private boolean isLeadingMargin;
-        private int first;
-        private int rest;
+        private int     first;
+        private int     rest;
 
         private boolean isBullet;
-        private int gapWidth;
-        private int bulletColor;
+        private int     gapWidth;
+        private int     bulletColor;
 
         private float     proportion;
         private float     xProportion;
@@ -91,6 +91,9 @@ public class SpannableStringUtils {
         private boolean   isBoldItalic;
         private String    fontFamily;
         private Alignment align;
+
+        private int     fontSize;
+        private boolean fontSizeIsDp;
 
         private boolean  imageIsBitmap;
         private Bitmap   bitmap;
@@ -118,6 +121,7 @@ public class SpannableStringUtils {
             foregroundColor = defaultValue;
             backgroundColor = defaultValue;
             quoteColor = defaultValue;
+            fontSize = -1;
             proportion = -1;
             xProportion = -1;
             mBuilder = new SpannableStringBuilder();
@@ -197,6 +201,31 @@ public class SpannableStringUtils {
             this.gapWidth = gapWidth;
             bulletColor = color;
             isBullet = true;
+            return this;
+        }
+
+        /**
+         * 设置字体尺寸
+         *
+         * @param size 尺寸
+         * @return {@link Builder}
+         */
+        public Builder setFontSize(int size) {
+            this.fontSize = size;
+            this.fontSizeIsDp = false;
+            return this;
+        }
+
+        /**
+         * 设置字体尺寸
+         *
+         * @param size 尺寸
+         * @param isDp 是否使用dip
+         * @return {@link Builder}
+         */
+        public Builder setFontSize(int size, boolean isDp) {
+            this.fontSize = size;
+            this.fontSizeIsDp = isDp;
             return this;
         }
 
@@ -465,6 +494,11 @@ public class SpannableStringUtils {
                 mBuilder.setSpan(new BulletSpan(gapWidth, bulletColor), start, end, 0);
                 isBullet = false;
             }
+            if (fontSize != -1) {
+                mBuilder.setSpan(new AbsoluteSizeSpan(fontSize, fontSizeIsDp), start, end, flag);
+                fontSize = -1;
+                fontSizeIsDp = false;
+            }
             if (proportion != -1) {
                 mBuilder.setSpan(new RelativeSizeSpan(proportion), start, end, flag);
                 proportion = -1;
@@ -505,13 +539,17 @@ public class SpannableStringUtils {
                 mBuilder.setSpan(new TypefaceSpan(fontFamily), start, end, flag);
                 fontFamily = null;
             }
+
             if (align != null) {
                 mBuilder.setSpan(new AlignmentSpan.Standard(align), start, end, flag);
                 align = null;
             }
             if (imageIsBitmap || imageIsDrawable || imageIsUri || imageIsResourceId) {
                 if (imageIsBitmap) {
-                    mBuilder.setSpan(new ImageSpan(BaseApplication.getInstance(), bitmap), start, end, flag);
+                    mBuilder.setSpan(new ImageSpan(BaseApplication.getInstance(), bitmap),
+                                     start,
+                                     end,
+                                     flag);
                     bitmap = null;
                     imageIsBitmap = false;
                 } else if (imageIsDrawable) {
@@ -519,11 +557,17 @@ public class SpannableStringUtils {
                     drawable = null;
                     imageIsDrawable = false;
                 } else if (imageIsUri) {
-                    mBuilder.setSpan(new ImageSpan(BaseApplication.getInstance(), uri), start, end, flag);
+                    mBuilder.setSpan(new ImageSpan(BaseApplication.getInstance(), uri),
+                                     start,
+                                     end,
+                                     flag);
                     uri = null;
                     imageIsUri = false;
                 } else {
-                    mBuilder.setSpan(new ImageSpan(BaseApplication.getInstance(), resourceId), start, end, flag);
+                    mBuilder.setSpan(new ImageSpan(BaseApplication.getInstance(), resourceId),
+                                     start,
+                                     end,
+                                     flag);
                     resourceId = 0;
                     imageIsResourceId = false;
                 }
@@ -537,7 +581,10 @@ public class SpannableStringUtils {
                 url = null;
             }
             if (isBlur) {
-                mBuilder.setSpan(new MaskFilterSpan(new BlurMaskFilter(radius, style)), start, end, flag);
+                mBuilder.setSpan(new MaskFilterSpan(new BlurMaskFilter(radius, style)),
+                                 start,
+                                 end,
+                                 flag);
                 isBlur = false;
             }
             flag = Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;

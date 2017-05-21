@@ -21,6 +21,22 @@ public abstract class BaseCallBack {
     public abstract void requestBefore(Request request);
 
     /**
+     * UI Thread
+     *
+     * @param
+     */
+    public void onAfter(int id) {
+    }
+
+    /**
+     * 返回错误数据
+     * @param response
+     * @param e
+     */
+    public abstract void onError(Response response, Exception e);
+
+
+    /**
      * 请求失败
      * @param request
      * @param e
@@ -38,14 +54,6 @@ public abstract class BaseCallBack {
      * @param str
      */
     public abstract void onSuccess(String str);
-
-    /**
-     * 返回错误数据
-     * @param response
-     * @param code
-     * @param e
-     */
-    public abstract void onError(Response response, int code, Exception e);
 
 
 }

@@ -1,11 +1,16 @@
 package com.example.model.helper;
 
 
+import com.example.admin.constants.API;
+import com.example.admin.constants.Constants;
 import com.example.model.bean.ReqBean;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @version V1.0
@@ -18,12 +23,12 @@ public class ApiManager
 
 {
 
-    /**
-     * url管理
-     */
-    public static class Url {
-        public static final String EXAMPLE_URL = "p/p_001";
-        public static final String SIIGEE_URL  = "p/p2_002";
+
+    public static Map<Integer, String> sUrlMap  = new HashMap();
+
+    static {
+        sUrlMap.put(Constants.EXAMPLE, API.EXAMPLE_URL);
+        sUrlMap.put(Constants.SIIGEE, API.SIIGEE_URL);
     }
 
     /**

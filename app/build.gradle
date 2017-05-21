@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
+apply plugin: 'org.greenrobot.greendao'
 android {
     compileSdkVersion Integer.parseInt(System.properties['compileSdkVersion'])
     buildToolsVersion System.properties['buildToolsVersion']
@@ -17,6 +18,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    useLibrary 'org.apache.http.legacy'
 }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -38,9 +40,12 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 
     compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'com.squareup.okhttp3:okhttp:3.6.0'
+    //图片处理（圆形等）
+    compile 'jp.wasabeef:glide-transformations:2.0.2'
+
+//    compile 'com.squareup.okhttp3:okhttp:3.6.0'
     compile project(path: ':vlayout')
-    compile 'com.squareup.okhttp3:okhttp:3.6.0'
+//    compile 'com.squareup.okhttp3:okhttp:3.6.0'
     compile 'com.android.support:recyclerview-v7:25.2.0'
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support:design:25.2.0'
@@ -56,7 +61,12 @@ dependencies {
     compile 'me.yokeyword:fragmentation:0.7.9'
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.1@aar'
     compile 'com.tencent.bugly:crashreport:latest.release'
-    compile 'com.google.code.gson:gson:2.8.0'
+//    compile 'com.google.code.gson:gson:2.8.0'
     //添加Mockito库
     testCompile "org.mockito:mockito-core:1.10.19"
+
+    compile 'cn.bmob.android:bmob-sdk:3.5.5'
+    compile 'cn.bmob.android:http-legacy:1.0'
+    compile 'org.greenrobot:greendao:3.2.2' // add library
+    compile 'com.kaopiz:kprogresshud:1.0.5'
 }

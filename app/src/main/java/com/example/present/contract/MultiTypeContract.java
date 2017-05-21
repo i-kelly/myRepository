@@ -28,9 +28,6 @@ public interface MultiTypeContract {
 
         void showBrandList(List<MultiTypeBean.ObjBean.BrandHomePageListBean> bean);
 
-        void onSuccess();
-
-        void fail();
 
 
     }

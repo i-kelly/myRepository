@@ -1,30 +1,44 @@
 package com.example.base;
 
-import com.example.model.IModel;
-import com.example.present.IPresenter;
+import com.example.model.IResult;
 
 /**
  * @version V1.0
- * @project:MyApplication
+ * @project: MyApplication
  * @author: Admin
  * @date: 2017-03-16 20:44
  * @desc Presenter基类
  */
-public abstract class BasePresenter<T extends IView, M extends IModel> implements IPresenter<T> {
+public abstract class BasePresenter<T extends IView>
+        extends MvpPresent<T>
+        implements IResult {
 
-    protected T mView;
-    protected M mModel;
 
     @Override
-    public void attachView(T view) {
-        this.mView = view;
-        this.mModel = getModel();
+    public void onBefore(int tag) {
+        if (isViewAttached()) {
+            getView().showLoading();
+        }
     }
 
     @Override
-    public void detachView() {
-        this.mView = null;
+    public void onAfter(int tag) {
+        if (isViewAttached()) {
+            getView().showError("");
+            getView().onSuccess();
+        }
     }
 
-    protected abstract M getModel();
+    @Override
+    public void onSuccess(Object bean, int tag) {
+        if (isViewAttached()) {
+            getView().onSuccess();
+        }
+    }
+
+
+    @Override
+    public void onFailure(String msg, int tag) {
+
+    }
 }

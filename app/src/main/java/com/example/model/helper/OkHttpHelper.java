@@ -6,7 +6,6 @@ import android.os.Looper;
 import com.example.R;
 import com.example.base.BaseApplication;
 import com.example.base.BaseMainApp;
-import com.google.gson.JsonSyntaxException;
 import com.orhanobut.logger.Logger;
 
 import org.json.JSONException;
@@ -29,10 +28,6 @@ import util.L;
 import util.T;
 
 
-/**
- * 类作用：okhttp联网
- * Created by liubp on 16/1/10.
- */
 public class OkHttpHelper {
     private static OkHttpHelper okHttpHelper;
 
@@ -43,9 +38,9 @@ public class OkHttpHelper {
     private OkHttpHelper() {
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder().connectTimeout(60,
-                                                                                 TimeUnit.SECONDS)
-                                                                 .writeTimeout(30, TimeUnit.SECONDS)
-                                                                 .readTimeout(30, TimeUnit.SECONDS);
+                                                                                 TimeUnit.SECONDS).writeTimeout(
+                30,
+                TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS);
         okHttpClient = builder.build();
 
         handler = new Handler(Looper.getMainLooper());
@@ -56,7 +51,6 @@ public class OkHttpHelper {
         if (null == okHttpHelper) {
             okHttpHelper = new OkHttpHelper();
         }
-
         return okHttpHelper;
     }
 
@@ -100,8 +94,7 @@ public class OkHttpHelper {
      * @param params
      * @param baseCallBack
      */
-    public void postNoEncrypt(String relativeUrl, JSONObject params, BaseCallBack baseCallBack)
-    {
+    public void postNoEncrypt(String relativeUrl, JSONObject params, BaseCallBack baseCallBack) {
         try {
             Request request = buildRequestNo(getAbsoluteUrl(relativeUrl),
                                              params,
@@ -114,8 +107,7 @@ public class OkHttpHelper {
 
     private static Request buildRequestNo(String url,
                                           JSONObject params,
-                                          HttpMethodType httpMethodType)
-    {
+                                          HttpMethodType httpMethodType) {
         try {
 
             Request.Builder builder = new Request.Builder();
@@ -168,44 +160,30 @@ public class OkHttpHelper {
 
         baseCallBack.requestBefore(request);
 
-        okHttpClient.newCall(request)
-                    .enqueue(new Callback() {
-                        @Override
-                        public void onFailure(Call call, IOException e) {
-                            baseCallBack.onFailure(request, e);
-                        }
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                baseCallBack.onFailure(request, e);
+            }
 
-                        @Override
-                        public void onResponse(Call call, Response response)
-                                throws IOException
-                        {
-
-                            baseCallBack.onResponse(response);
-                            if (response.isSuccessful()) {
-                                try {
-                                    String resStr = response.body()
-                                                            .string();
-                                    Logger.json(resStr);
-                                    JSONObject jsonObject = new JSONObject(resStr);
-                                    if (!jsonObject.getString("code")
-                                                   .equals("000"))
-                                    {
-                                        callBackFail(jsonObject.getString("message"));
-                                        return;
-                                    } else {
-                                        callBackSuccess(baseCallBack, resStr);
-                                    }
-
-                                } catch (JsonSyntaxException e) {
-                                    e.printStackTrace();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            } else {
-                                callBackError(response, baseCallBack);
-                            }
-                        }
-                    });
+            @Override
+            public void onResponse(Call call, Response response) {
+                try {
+                    baseCallBack.onResponse(response);
+                    if (response.isSuccessful()) {
+                        String resStr = response.body().string();
+                        Logger.json(resStr);
+                        callBackSuccess(baseCallBack, resStr);
+                    } else {
+                        callBackError(response, baseCallBack);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    if (response.body() != null) { response.body().close(); }
+                }
+            }
+        });
     }
 
     /**
@@ -215,28 +193,19 @@ public class OkHttpHelper {
      * @return 联网所需的request
      */
     private Request buildRequest(String url, JSONObject params, HttpMethodType httpMethodType)
-            throws Exception
-    {
+            throws Exception {
 
-        String si = null;
-        String pa = null;
-
-        HashMap<String, String> param = new HashMap<String, String>();
-        if (null == params) {
-            params = new JSONObject();
-        }
-        JSONObject paObject = getPaObject(params);
-
-
-        Iterator<String> it = paObject.keys();
+        HashMap<String, String> map      = new HashMap<String, String>();
+        JSONObject              paObject = getPaObject(params);
+        Iterator<String>        it       = paObject.keys();
         while (it.hasNext()) {
             String key = it.next();
-            param.put(key, paObject.getString(key));
+            map.put(key, paObject.getString(key));
         }
         L.i("params: " + paObject);
         /****************数据加密*****************/
-        si = DetectTool.getSign(param);
-        pa = DetectTool.getPara(paObject);
+        String si = DetectTool.getSign(map);
+        String pa = DetectTool.getPara(paObject);
         /****************数据加密*****************/
 
         Request.Builder builder = new Request.Builder();
@@ -271,8 +240,7 @@ public class OkHttpHelper {
     }
 
 
-    private void callBackSuccess(final BaseCallBack baseCallBack, final String resStr)
-    {
+    private void callBackSuccess(final BaseCallBack baseCallBack, final String resStr) {
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -296,37 +264,30 @@ public class OkHttpHelper {
             public void run() {
                 switch (response.code()) {
                     case 500:
-                        T.showShort(BaseApplication.getInstance()
-                                                   .getString(R.string.error_call_back_server_error));
+                        T.showShort(BaseApplication.getInstance().getString(R.string.error_call_back_server_error));
                         break;
                     case 404:
-                        T.showShort(BaseApplication.getInstance()
-                                                   .getString(R.string.error_call_back_no_param));
+                        T.showShort(BaseApplication.getInstance().getString(R.string.error_call_back_no_param));
                         break;
                     case 400:
-                        T.showShort(BaseApplication.getInstance()
-                                                   .getString(R.string.error_call_back_param_error));
+                        T.showShort(BaseApplication.getInstance().getString(R.string.error_call_back_param_error));
                         break;
                     case 403:
-                        T.showShort(BaseApplication.getInstance()
-                                                   .getString(R.string.error_call_back_no_permission));
+                        T.showShort(BaseApplication.getInstance().getString(R.string.error_call_back_no_permission));
                         break;
                     case 10000:  //保存的用户信息过期
-                        T.showShort(BaseApplication.getInstance()
-                                                   .getString(R.string.error_call_back_user_info_outtime));
+                        T.showShort(BaseApplication.getInstance().getString(R.string.error_call_back_user_info_outtime));
                         //reLogin(activity);
                         break;
                     case 10001:  //没有操作权限
-                        T.showShort(BaseApplication.getInstance()
-                                                   .getString(R.string.error_call_back_no_permission));
+                        T.showShort(BaseApplication.getInstance().getString(R.string.error_call_back_no_permission));
                         break;
                     default:
-                        T.showShort(BaseApplication.getInstance()
-                                                   .getString(R.string.error_call_back_no_error));
+                        T.showShort(BaseApplication.getInstance().getString(R.string.error_call_back_no_error));
                         break;
                 }
 
-                baseCallBack.onError(response, 900, new Exception("httpError"));
+                baseCallBack.onError(response, new Exception("httpError"));
             }
         });
     }
@@ -338,27 +299,20 @@ public class OkHttpHelper {
      * @return
      */
     private static String getAbsoluteUrl(String relativeUrl) {
-        return BaseMainApp.getInstance()
-                          .getMainHostUrl(BaseApplication.getInstance()) + relativeUrl;
+        return BaseMainApp.getInstance().getMainHostUrl(BaseApplication.getInstance()) + relativeUrl;
     }
 
     private static JSONObject getPaObject(JSONObject params)
-            throws JSONException
-    {
-        JSONObject       allDataObject = new JSONObject();
-        Iterator<String> it            = params.keys();
-        while (it.hasNext()) {
-            String key = it.next();
-            allDataObject.put(key, params.getString(key));
+            throws JSONException {
+        if (null == params) {
+            params = new JSONObject();
         }
-
-        String ts = DetectTool.getTS();
-        allDataObject.put("m", DetectTool.getType());
-        allDataObject.put("u", DetectTool.getToken());
-        allDataObject.put("v", DetectTool.getVersionName());
-        allDataObject.put("i", DetectTool.getIMEI(BaseApplication.getInstance()));
-        allDataObject.put("t", ts);
-        return allDataObject;
+        params.put("m", DetectTool.getType());
+        params.put("u", DetectTool.getToken());
+        params.put("v", DetectTool.getVersionName());
+        params.put("i", DetectTool.getIMEI(BaseApplication.getInstance()));
+        params.put("t", DetectTool.getTS());
+        return params;
     }
 
     /**

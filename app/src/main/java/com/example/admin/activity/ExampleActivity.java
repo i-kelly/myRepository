@@ -84,8 +84,13 @@ public class ExampleActivity
     }
 
     @Override
+    public void showLoading() {
+
+    }
+
+    @Override
     public void showContent(ExampleBean bean) {
-        T.showShort(bean.obj.nonProfitFound);
+        T.showShort(bean.nonProfitFound);
     }
 
     @Override
@@ -93,10 +98,6 @@ public class ExampleActivity
 
     }
 
-    @Override
-    public void fail() {
-
-    }
 
     @Override
     public String getText() {

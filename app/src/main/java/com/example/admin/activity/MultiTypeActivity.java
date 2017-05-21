@@ -101,6 +101,21 @@ public class MultiTypeActivity
         adapters.add(new SearchAdapter(this, layoutHelper, 1));
 
         mPresenter.getData();
+
+     /*   Person p2 = new Person();
+        p2.setName("lucky");
+        p2.setAddress("北京海淀");
+        p2.save(new SaveListener<String>() {
+            @Override
+            public void done(String objectId, BmobException e) {
+                if (e == null) {
+                    T.showShort("添加数据成功，返回objectId为：" + objectId);
+                } else {
+                    T.showShort("创建数据失败：" + e.getMessage());
+                    L.e(e.getErrorCode()+"");
+                }
+            }
+        });*/
     }
 
     @Override
@@ -147,16 +162,8 @@ public class MultiTypeActivity
     public void onSuccess() {
         delegateAdapter.setAdapters(adapters);
         //        recyclerView.getAdapter().notifyDataSetChanged();
-    }
-
-    @Override
-    public void fail() {
 
     }
 
-    @Override
-    public void showError(String msg) {
-
-    }
 
 }
