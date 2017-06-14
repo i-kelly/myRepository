@@ -10,6 +10,11 @@ package com.example.admin.constants;
  */
 
 public interface API {
+
+
+    /*************用例*****************/
     String EXAMPLE_URL = "p/p_001";
+    String EXAMPLE_PAR_ID      = "id";
+    /*************用例2*****************/
     String SIIGEE_URL  = "p/p2_002";
 }

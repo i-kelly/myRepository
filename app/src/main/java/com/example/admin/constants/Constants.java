@@ -12,4 +12,5 @@ package com.example.admin.constants;
 public interface Constants {
     int SIIGEE  = 100000;
     int EXAMPLE = 100001;
+    String APK_DOWNLOAD_URL = "";
 }

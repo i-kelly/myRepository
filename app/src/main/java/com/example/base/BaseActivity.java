@@ -15,6 +15,7 @@ import com.kaopiz.kprogresshud.KProgressHUD;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import util.ActivityStack;
 import util.L;
 
 /**
@@ -31,18 +32,23 @@ public abstract class BaseActivity<T extends IPresenter>
     @Nullable
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    protected T            mPresenter;
-    private   Unbinder     mUnBinder;
-    private   KProgressHUD mKProgressHUD;
-
+    protected T mPresenter = getPresenter();
+    private Unbinder     mUnBinder;
+    private KProgressHUD mKProgressHUD;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState); setContentView(getLayoutId());
-        mUnBinder = ButterKnife.bind(this); initToolbar(); if (mPresenter == null) {
-            mPresenter = getPresenter(); mPresenter.attachView(this);
-        } BaseMainApp.getInstance()
-                     .addActivity(this); initViews(savedInstanceState);
+        super.onCreate(savedInstanceState);
+        setContentView(getLayoutId());
+        ActivityStack.add(this);
+        mUnBinder = ButterKnife.bind(this);
+        initToolbar();
+        if (mPresenter != null) {
+            mPresenter.attachView(this);
+        }
+        BaseMainApp.getInstance()
+                   .addActivity(this);
+        initViews(savedInstanceState);
     }
 
     protected void initViews(Bundle savedInstanceState) {
@@ -54,7 +60,8 @@ public abstract class BaseActivity<T extends IPresenter>
     @CallSuper
     @Override
     protected void onResume() {
-        super.onResume(); L.i("onResume：" + getClass().getName());
+        super.onResume();
+        L.i("onResume：" + getClass().getName());
     }
 
     protected abstract
@@ -118,7 +125,12 @@ public abstract class BaseActivity<T extends IPresenter>
 
     @Override
     protected void onDestroy() {
-        super.onDestroy(); if (mPresenter != null) { mPresenter.detachView(); } mUnBinder.unbind();
+        super.onDestroy();
+        ActivityStack.remove(this);
+        if (mPresenter != null) {
+            mPresenter.detachView();
+        }
+        mUnBinder.unbind();
         BaseMainApp.getInstance()
                    .removeActivity(this);
     }
@@ -126,12 +138,12 @@ public abstract class BaseActivity<T extends IPresenter>
 
     @Override
     public void onSuccess() {
-//        if (mKProgressHUD != null) { mKProgressHUD.dismiss(); }
+
     }
 
     @Override
     public void showError(String msg) {
-//        util.T.showShort(msg);
+        //        util.T.showShort(msg);
     }
 
     @Override
@@ -145,6 +157,13 @@ public abstract class BaseActivity<T extends IPresenter>
                                         .setAnimationSpeed(2)
                                         .setDimAmount(0.5f)
                                         .show();
+        }
+    }
+
+    @Override
+    public void hideLoading() {
+        if (mKProgressHUD != null) {
+            mKProgressHUD.dismiss();
         }
     }
 }

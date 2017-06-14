@@ -11,7 +11,7 @@ import com.example.base.BaseFragment;
  * @desc TODO 类作用
  */
 public class OneFragment extends BaseFragment {
-    private static final String TAG = "OneFragment";
+    public static final String TAG = "OneFragment";
 
     @Override
     protected int getLayoutResId() {

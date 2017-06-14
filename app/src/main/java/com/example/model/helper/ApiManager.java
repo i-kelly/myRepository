@@ -14,7 +14,7 @@ import java.util.Map;
 
 /**
  * @version V1.0
- * @project:MyApplication
+ * @project: MyApplication
  * @author: Admin
  * @date: 2017-03-20 15:39
  * @desc 接口管理类
@@ -24,7 +24,7 @@ public class ApiManager
 {
 
 
-    public static Map<Integer, String> sUrlMap  = new HashMap();
+    public static Map<Integer, String> sUrlMap = new HashMap();
 
     static {
         sUrlMap.put(Constants.EXAMPLE, API.EXAMPLE_URL);
@@ -50,10 +50,11 @@ public class ApiManager
     }
 
 
-    public static JSONObject getExampleParams(String id) {
+    public static JSONObject getExampleParams(String key,
+                                              String value) {
         JSONObject params = new JSONObject();
         try {
-            params.put("id", id);
+            params.put(key, value);
         } catch (JSONException e) {
             e.printStackTrace();
         }

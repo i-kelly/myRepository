@@ -52,6 +52,9 @@
         </activity>
         <activity android:name=".admin.activity.MultiTypeActivity">
         </activity>
+        <service
+            android:name=".admin.service.DownloadService"
+            android:exported="false" />
     </application>
 
 </manifest>

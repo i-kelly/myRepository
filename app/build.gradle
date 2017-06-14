@@ -1,3 +1,5 @@
+import com.app.plugin.AspectjPlugin
+
 apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'org.greenrobot.greendao'
@@ -69,4 +71,14 @@ dependencies {
     compile 'cn.bmob.android:http-legacy:1.0'
     compile 'org.greenrobot:greendao:3.2.2' // add library
     compile 'com.kaopiz:kprogresshud:1.0.5'
+    compile 'org.aspectj:aspectjrt:1.8.+'
+    compile project(path: ':annotation')
+    compile 'pub.devrel:easypermissions:0.4.0'
+
+    apply plugin: AspectjPlugin
+    apply plugin: 'com.android.application'
+    apply plugin: 'com.jakewharton.hugo'
+    annotationProcessor project(':annotation')
+//    apt project(':annotation')
+    compile 'com.lcodecorex:tkrefreshlayout:1.0.7'
 }

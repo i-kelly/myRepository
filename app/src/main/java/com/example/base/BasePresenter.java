@@ -24,8 +24,7 @@ public abstract class BasePresenter<T extends IView>
     @Override
     public void onAfter(int tag) {
         if (isViewAttached()) {
-            getView().showError("");
-            getView().onSuccess();
+            getView().hideLoading();
         }
     }
 
@@ -39,6 +38,8 @@ public abstract class BasePresenter<T extends IView>
 
     @Override
     public void onFailure(String msg, int tag) {
-
+        if (isViewAttached()) {
+            getView().showError(msg);
+        }
     }
 }

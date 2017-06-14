@@ -3,6 +3,7 @@ package com.example.admin.manager;
 import android.content.Context;
 import android.content.Intent;
 
+import com.example.CheckLogin;
 import com.example.admin.activity.ExampleActivity;
 import com.example.admin.activity.MultiTypeActivity;
 import com.example.base.InitializeService;
@@ -42,7 +43,9 @@ public class Router {
      * 跳转multitype页面
      * @param context
      */
+    @CheckLogin
     public static void startMultiTypeActivity(Context context) {
+//        TRouter.go();
         Intent intent = new Intent(context, MultiTypeActivity.class);
         context.startActivity(intent);
     }

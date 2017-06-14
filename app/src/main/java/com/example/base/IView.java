@@ -16,5 +16,8 @@ public interface IView {
     @UiThread
     void showLoading();
 
+    @UiThread
+    void hideLoading();
+
 
 }

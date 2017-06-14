@@ -26,6 +26,9 @@ package com.example.admin.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
@@ -36,14 +39,19 @@ import com.alibaba.android.vlayout.layout.LinearLayoutHelper;
 import com.alibaba.android.vlayout.layout.SingleLayoutHelper;
 import com.alibaba.android.vlayout.layout.StickyLayoutHelper;
 import com.example.R;
+import com.example.Router;
 import com.example.admin.adapter.BannerAdapter;
 import com.example.admin.adapter.GridAdpter;
 import com.example.admin.adapter.SearchAdapter;
 import com.example.admin.adapter.SubAdapter;
 import com.example.base.BaseActivity;
+import com.example.base.BaseFragment;
+import com.example.fragment.OneFragment;
 import com.example.model.bean.MultiTypeBean;
 import com.example.present.MultiTypePresenter;
 import com.example.present.contract.MultiTypeContract;
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -57,14 +65,15 @@ import butterknife.BindView;
  * @date: 2017-03-17 09:56
  * @desc 多类型页面
  */
+@Router("MultiTypeActivity")
 public class MultiTypeActivity
         extends BaseActivity<MultiTypePresenter>
-        implements MultiTypeContract.View
-{
+        implements MultiTypeContract.View, BaseFragment.Callback {
 
     @BindView(R.id.main_view)
-    RecyclerView recyclerView;
-
+    RecyclerView           recyclerView;
+    @BindView(R.id.refreshLayout)
+    TwinklingRefreshLayout refreshLayout;
     private Runnable                      trigger;
     private List<DelegateAdapter.Adapter> adapters;
     private RecyclerView.RecycledViewPool viewPool;
@@ -82,25 +91,58 @@ public class MultiTypeActivity
 
     @Override
     protected void initViews(Bundle savedInstanceState) {
+
+
         super.initViews(savedInstanceState);
+
+        refreshLayout.setOnRefreshListener(new RefreshListenerAdapter() {
+            @Override
+            public void onRefresh(final TwinklingRefreshLayout refreshLayout) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshLayout.finishRefreshing();
+                    }
+                }, 2000);
+            }
+
+            @Override
+            public void onLoadMore(final TwinklingRefreshLayout refreshLayout) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshLayout.finishLoadmore();
+                    }
+                }, 2000);
+            }
+        });
+
+
         VirtualLayoutManager layoutManager = new VirtualLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         viewPool = new RecyclerView.RecycledViewPool();
         recyclerView.setRecycledViewPool(viewPool);
         viewPool.setMaxRecycledViews(0, 20);
-        delegateAdapter = new DelegateAdapter(layoutManager, true);
+        delegateAdapter = new
+
+                DelegateAdapter(layoutManager, true);
         recyclerView.setAdapter(delegateAdapter);
         adapters = new LinkedList<>();
         //搜索
         //通栏布局
-//        FloatLayoutHelper layoutHelper = new FloatLayoutHelper();
-//        layoutHelper.setAlignType(FixLayoutHelper.BOTTOM_RIGHT);//吸边
-//        layoutHelper.setDefaultLocation(100, 400);
+        //        FloatLayoutHelper layoutHelper = new FloatLayoutHelper();
+        //        layoutHelper.setAlignType(FixLayoutHelper.BOTTOM_RIGHT);//吸边
+        //        layoutHelper.setDefaultLocation(100, 400);
         StickyLayoutHelper layoutHelper = new StickyLayoutHelper();
         layoutHelper.setStickyStart(true);//吸顶
         adapters.add(new SearchAdapter(this, layoutHelper, 1));
+        new Handler(getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
 
-        mPresenter.getData();
+                mPresenter.getData();
+            }
+        }, 1000);
 
      /*   Person p2 = new Person();
         p2.setName("lucky");
@@ -150,11 +192,8 @@ public class MultiTypeActivity
         layoutHelper.setAspectRatio(4);
         layoutHelper.setMargin(10, 20, 10, 20);
         layoutHelper.setPadding(10, 10, 10, 10);
-        adapters.add(new SubAdapter(this,
-                                    layoutHelper,
-                                    1,
-                                    new VirtualLayoutManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                                                                          100)));
+        adapters.add(new SubAdapter(this, layoutHelper, 1, new VirtualLayoutManager.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, 100)));
 
     }
 
@@ -165,5 +204,24 @@ public class MultiTypeActivity
 
     }
 
+    @Override
+    public void onBackPressed() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment        fragment        = fragmentManager.findFragmentByTag(OneFragment.TAG);
+        if (fragment == null) {
+            super.onBackPressed();
+        } else {
+            onFragmentDetached(OneFragment.TAG);
+        }
+    }
 
+    @Override
+    public void onFragmentAttached() {
+
+    }
+
+    @Override
+    public void onFragmentDetached(String tag) {
+
+    }
 }

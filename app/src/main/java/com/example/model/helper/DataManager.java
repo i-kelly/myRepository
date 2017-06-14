@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import hugo.weaving.DebugLog;
 import okhttp3.Request;
 import okhttp3.Response;
 import util.GsonUtil;
@@ -26,9 +27,11 @@ public class DataManager {
     public static synchronized DataManager getInstance() {
         if (null == manager) {
             manager = new DataManager();
-        } return manager;
+        }
+        return manager;
     }
 
+    @DebugLog
     public <T> void getData(final HUDCallBack<T> hudCallBack) {
         OkHttpHelper.getInstance()
                     .post(hudCallBack.getRelativeUrl(), new JSONObject(), new BaseCallBack() {
@@ -38,18 +41,20 @@ public class DataManager {
                         }
 
                         @Override
-                        public void onError(Response response, Exception e) {
+                        public void onError(Response response,
+                                            Exception e) {
                             hudCallBack.onAfter();
                         }
 
                         @Override
-                        public void onFailure(Request request, IOException e) {
+                        public void onFailure(Request request,
+                                              IOException e) {
                             hudCallBack.onAfter();
                         }
 
                         @Override
                         public void onResponse(Response response) {
-                            hudCallBack.onAfter();
+                            //                            hudCallBack.onAfter();
                         }
 
                         @Override
@@ -60,7 +65,8 @@ public class DataManager {
                                 hudCallBack.onFailure(bean.message);
                             } else {
                                 hudCallBack.onSuccess(bean.data);
-                            } hudCallBack.onAfter();
+                            }
+                            hudCallBack.onAfter();
                         }
                     });
     }

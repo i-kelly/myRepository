@@ -53,5 +53,6 @@
     <string name="girl">女</string>
     <string name="action_settings">设置</string>
     <string name="search">搜索</string>
+    <string name="tip_double_click_exit">再次点击退出</string>
 
 </resources>

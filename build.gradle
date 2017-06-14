@@ -2,6 +2,10 @@
 buildscript {
     repositories {
         jcenter()
+        mavenCentral()
+        maven {
+            url uri('repo')
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.2'
@@ -11,6 +15,9 @@ buildscript {
         // in the individual module build.gradle files
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2' // add plugin
+
+        classpath 'com.app.plugin:gradleplugin:1.0.0'
+        classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
     }
 }
 
@@ -21,7 +28,8 @@ allprojects {
         maven { url "https://raw.github.com/bmob/bmob-android-sdk/master" }
     }
 }
-
+//不加这一句MakeProject会报错，其余都正常无影响
+task compileJava {}
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

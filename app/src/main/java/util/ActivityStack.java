@@ -10,25 +10,14 @@ import java.util.Stack;
 public class ActivityStack {
 
     private static Stack<Activity> activityStack;
-    private static ActivityStack instance;
 
     private ActivityStack() {
     }
 
     /**
-     * 单一实例
-     */
-    public static ActivityStack create() {
-        if (instance == null) {
-            instance = new ActivityStack();
-        }
-        return instance;
-    }
-
-    /**
      * 添加Activity到堆栈
      */
-    public void add(Activity activity) {
+    public static void add(Activity activity) {
         if (activityStack == null) {
             activityStack = new Stack<>();
         }
@@ -38,7 +27,7 @@ public class ActivityStack {
     /**
      * 移除堆栈中指定Activity
      */
-    public void remove(Activity activity) {
+    public static void remove(Activity activity) {
         if (activityStack == null) {
             activityStack = new Stack<>();
         }
@@ -48,14 +37,14 @@ public class ActivityStack {
     /**
      * 获取当前Activity（堆栈中最后一个压入的）
      */
-    public Activity top() {
+    public static Activity top() {
         return activityStack.lastElement();
     }
 
     /**
      * 结束当前Activity（堆栈中最后一个压入的）
      */
-    public void finish() {
+    public static void finish() {
         Activity activity = activityStack.lastElement();
         finish(activity);
     }
@@ -63,7 +52,7 @@ public class ActivityStack {
     /**
      * 结束指定的Activity
      */
-    public void finish(Activity activity) {
+    public static void finish(Activity activity) {
         if (activity != null && !activity.isFinishing()) {
             activityStack.remove(activity);
             activity.finish();
@@ -74,9 +63,10 @@ public class ActivityStack {
     /**
      * 结束指定类名的Activity
      */
-    public void finish(Class<?> cls) {
+    public static void finish(Class<?> cls) {
         for (Activity activity : activityStack) {
-            if (activity.getClass().equals(cls)) {
+            if (activity.getClass()
+                        .equals(cls)) {
                 finish(activity);
                 break;
             }
@@ -86,7 +76,7 @@ public class ActivityStack {
     /**
      * 结束所有Activity
      */
-    public void finishAll() {
+    public static void finishAll() {
         for (int i = 0, size = activityStack.size(); i < size; i++) {
             Activity activity = activityStack.get(i);
             if (null != activity && !activity.isFinishing()) {
@@ -103,7 +93,8 @@ public class ActivityStack {
     public static Activity getActivity(Class<?> cls) {
         if (activityStack != null) {
             for (Activity activity : activityStack) {
-                if (activity.getClass().equals(cls)) {
+                if (activity.getClass()
+                            .equals(cls)) {
                     return activity;
                 }
             }
@@ -114,7 +105,7 @@ public class ActivityStack {
     /**
      * 退出应用程序
      */
-    public void appExit() {
+    public static void appExit() {
         try {
             finishAll();
             // 杀死该应用进程
