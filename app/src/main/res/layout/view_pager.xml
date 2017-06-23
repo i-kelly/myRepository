@@ -23,11 +23,57 @@
   ~ SOFTWARE.
   -->
 
-<android.support.v4.view.ViewPager
-    android:id="@+id/pager"
+<!--<android.support.v4.view.ViewPager-->
+<!--android:id="@+id/pager"-->
+<!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="330dp"-->
+<!--android:layout_gravity="bottom"-->
+<!--android:clipToPadding="false"-->
+<!--android:overScrollMode="never"-->
+<!--android:clipChildren="false"-->
+<!--android:paddingBottom="30dp"-->
+<!--android:paddingEnd="@dimen/card_padding"-->
+<!--android:paddingLeft="@dimen/card_padding"-->
+<!--android:paddingRight="@dimen/card_padding"-->
+<!--android:paddingStart="@dimen/card_padding">-->
+
+<!--</android.support.v4.view.ViewPager>-->
+<!--<com.gigamole.infinitecycleviewpager.HorizontalInfiniteCycleViewPager-->
+<!--android:id="@+id/pager"-->
+<!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="match_parent"-->
+<!--app:icvp_center_page_scale_offset="30dp"-->
+<!--app:icvp_interpolator="@android:anim/linear_interpolator"-->
+<!--app:icvp_max_page_scale="0.8"-->
+<!--app:icvp_medium_scaled="true"-->
+<!--app:icvp_min_page_scale="0.5"-->
+<!--app:icvp_min_page_scale_offset="5dp"-->
+<!--app:icvp_scroll_duration="500"/>-->
+<!--<com.youth.banner.Banner-->
+<!--android:id="@+id/banner"-->
+<!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_margin="20dp"-->
+<!--android:clipChildren="false"-->
+<!--android:layout_height="330dp"/>-->
+
+<!--<com.yarolegovich.discretescrollview.DiscreteScrollView-->
+<!--android:id="@+id/picker"-->
+<!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--android:clipChildren="false"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="330dp"-->
+<!--app:dsv_orientation="horizontal"/>-->
+
+<com.bigkoo.convenientbanner.ConvenientBanner
+    android:id="@+id/convenientBanner"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="450dp">
-
-
-</android.support.v4.view.ViewPager>
+    android:layout_height="200dp"
+    app:canLoop="true"
+    />

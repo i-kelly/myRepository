@@ -81,4 +81,8 @@ dependencies {
     annotationProcessor project(':annotation')
 //    apt project(':annotation')
     compile 'com.lcodecorex:tkrefreshlayout:1.0.7'
+    compile 'com.github.devlight:infinitecycleviewpager:1.0.2'
+    compile 'com.youth.banner:banner:1.4.9'
+    compile 'com.yarolegovich:discrete-scrollview:1.2.0'
+    compile 'com.bigkoo:convenientbanner:2.0.5'
 }

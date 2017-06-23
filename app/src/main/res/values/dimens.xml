@@ -152,4 +152,5 @@
     <dimen name="btn_width_120">120dp</dimen>
     <dimen name="btn_width_77.5">77.5dp</dimen>
     <dimen name="btn_width_94">94dp</dimen>
+    <dimen name="card_padding">60dp</dimen>
 </resources>
