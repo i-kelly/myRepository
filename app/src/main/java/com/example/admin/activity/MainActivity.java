@@ -153,8 +153,27 @@ public class MainActivity
 
     public void test() {
         //        Router.startExampleActivity(MainActivity.this);
-        Router.startMultiTypeActivity(MainActivity.this);
+                Router.startMultiTypeActivity(MainActivity.this);
+
+
+     /*   Resources      resources = getResources();
+        DisplayMetrics dm        = resources.getDisplayMetrics();
+        Configuration  config    = resources.getConfiguration();
+        // 应用用户选择语言
+        if (!isEN) {
+            config.locale = Locale.ENGLISH;
+            isEN = true;
+        }else {
+            config.locale = Locale.SIMPLIFIED_CHINESE;
+            isEN = false;
+        }
+        resources.updateConfiguration(config, dm);
+
+        Router.startMainActivity(MainActivity.this);*/
+
     }
+
+    public static boolean isEN = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

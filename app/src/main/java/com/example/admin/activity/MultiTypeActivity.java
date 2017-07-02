@@ -50,6 +50,7 @@ import com.example.fragment.OneFragment;
 import com.example.model.bean.MultiTypeBean;
 import com.example.present.MultiTypePresenter;
 import com.example.present.contract.MultiTypeContract;
+import com.example.rx.MultiPresenter;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
@@ -140,7 +141,8 @@ public class MultiTypeActivity
             @Override
             public void run() {
 
-                mPresenter.getData();
+//                mPresenter.getData();
+               new MultiPresenter().getData();
             }
         }, 1000);
 

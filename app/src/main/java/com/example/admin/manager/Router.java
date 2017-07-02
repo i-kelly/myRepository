@@ -1,10 +1,12 @@
 package com.example.admin.manager;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
 import com.example.CheckLogin;
 import com.example.admin.activity.ExampleActivity;
+import com.example.admin.activity.MainActivity;
 import com.example.admin.activity.MultiTypeActivity;
 import com.example.base.InitializeService;
 
@@ -45,9 +47,17 @@ public class Router {
      */
     @CheckLogin
     public static void startMultiTypeActivity(Context context) {
-//        TRouter.go();
+        //        TRouter.go();
         Intent intent = new Intent(context, MultiTypeActivity.class);
         context.startActivity(intent);
+        ((Activity) context).overridePendingTransition(0, 0);
     }
 
+    public static void startMainActivity(Context context) {
+        //        TRouter.go();
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(intent);
+//        ((Activity) context).overridePendingTransition(0, 0);
+    }
 }

@@ -1,6 +1,8 @@
 package com.example.base;
 
 import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.example.admin.manager.Router;
 
@@ -34,4 +36,10 @@ public class BaseApplication extends Application {
 
         Bmob.initialize(this, "8a1ece2588c0b76a580631608d3943ad");
     }
+
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
 }

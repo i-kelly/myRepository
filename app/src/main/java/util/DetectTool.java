@@ -7,13 +7,12 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.support.annotation.NonNull;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
+import com.example.base.BaseApplication;
 import com.example.base.BaseData;
 
 import org.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -72,12 +71,12 @@ public class DetectTool {
     /**
      * 获取手机唯一串号IMEI
      *
-     * @param context
      * @return imei
      */
-    public static String getIMEI(Context context) {
+    public static String getIMEI() {
         if (null == tm) {
-            tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            tm = (TelephonyManager) BaseApplication.getInstance()
+                                                   .getSystemService(Context.TELEPHONY_SERVICE);
         }
 
         return tm.getDeviceId();
@@ -85,7 +84,7 @@ public class DetectTool {
     }
 
 
-    public static String getSign(HashMap<String, String> params) {
+    public static String getSign(Map<String, String> params) {
 
         // 先将参数以其参数名的字典序升序进行排序
         Map<String, String>        sortedParams = new TreeMap<String, String>(params);
@@ -95,13 +94,16 @@ public class DetectTool {
         // 遍历排序后的字典，将所有参数按"key=value"格式拼接在一起
         StringBuilder basestring = new StringBuilder();
         for (Entry<String, String> param : entrys) {
-            basestring.append(param.getKey()).append("=").append(param.getValue());
+            basestring.append(param.getKey())
+                      .append("=")
+                      .append(param.getValue());
         }
         /*****************对排序后的参数进行MD5散列函数运算***********************/
         String hex = EncryptUtils.encryptMD5ToString(basestring.toString());
         /*****************对排序后的参数进行MD5散列函数运算***********************/
         //返回md5加密后的字符串注意统一转化为大写
-        return hex.toString().toUpperCase();
+        return hex.toString()
+                  .toUpperCase();
 
     }
 
@@ -137,5 +139,9 @@ public class DetectTool {
 
     public static String getPara(@NonNull JSONObject paObject) {
         return EncryptUtils.encryptDES2Base64(paObject.toString());
+    }
+
+    public static String getPara(@NonNull String paStr) {
+        return EncryptUtils.encryptDES2Base64(paStr);
     }
 }

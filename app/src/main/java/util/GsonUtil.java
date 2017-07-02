@@ -37,9 +37,11 @@ public class GsonUtil {
      * @return
      */
     public static String GsonString(Object object) {
-        String gsonString = null; if (gson != null) {
+        String gsonString = null;
+        if (gson != null) {
             gsonString = gson.toJson(object);
-        } return gsonString;
+        }
+        return gsonString;
     }
 
     /**
@@ -49,16 +51,22 @@ public class GsonUtil {
      * @param cls
      * @return
      */
-    public static <T> T GsonToBean(String gsonString, Class<T> cls) {
-        T t = null; if (gson != null) {
+    public static <T> T GsonToBean(String gsonString,
+                                   Class<T> cls) {
+        T t = null;
+        if (gson != null) {
             t = gson.fromJson(gsonString, cls);
-        } return t;
+        }
+        return t;
     }
 
-    public static <T> T GsonToBean(String gsonString, Type type) {
-        T t = null; if (gson != null) {
+    public static <T> T GsonToBean(String gsonString,
+                                   Type type) {
+        T t = null;
+        if (gson != null) {
             t = gson.fromJson(gsonString, type);
-        } return t;
+        }
+        return t;
     }
 
     /**
@@ -68,10 +76,13 @@ public class GsonUtil {
      * @param cls
      * @return
      */
-    public static <T> List<T> GsonToList(String gsonString, Class<T> cls) {
-        List<T> list = null; if (gson != null) {
+    public static <T> List<T> GsonToList(String gsonString,
+                                         Class<T> cls) {
+        List<T> list = null;
+        if (gson != null) {
             list = gson.fromJson(gsonString, new TypeToken<List<T>>() {}.getType());
-        } return list;
+        }
+        return list;
     }
 
     /**
@@ -81,9 +92,11 @@ public class GsonUtil {
      * @return
      */
     public static <T> List<Map<String, T>> GsonToListMaps(String gsonString) {
-        List<Map<String, T>> list = null; if (gson != null) {
+        List<Map<String, T>> list = null;
+        if (gson != null) {
             list = gson.fromJson(gsonString, new TypeToken<List<Map<String, T>>>() {}.getType());
-        } return list;
+        }
+        return list;
     }
 
     /**
@@ -93,9 +106,23 @@ public class GsonUtil {
      * @return
      */
     public static <T> Map<String, T> GsonToMaps(String gsonString) {
-        Map<String, T> map = null; if (gson != null) {
+        Map<String, T> map = null;
+        if (gson != null) {
             map = gson.fromJson(gsonString, new TypeToken<Map<String, T>>() {}.getType());
-        } return map;
+        }
+        return map;
+    }
+
+    /**
+     * 将Map转化为Json
+     *
+     * @param map
+     * @return String
+     */
+    public static <T> String mapToJson(Map<String, T> map) {
+        Gson   gson    = new Gson();
+        String jsonStr = gson.toJson(map);
+        return jsonStr;
     }
 
     /**
@@ -108,22 +135,29 @@ public class GsonUtil {
 
         if (superClass instanceof Class) {
             throw new RuntimeException("Missing type parmaeter... ");
-        } ParameterizedType parameterize = (ParameterizedType) superClass;
+        }
+        ParameterizedType parameterize = (ParameterizedType) superClass;
         return $Gson$Types.canonicalize(parameterize.getActualTypeArguments()[0]);
     }
 
 
-    public static <T, K> K fromJsonObject(String gsonString, Class rawClz, Type argType) {
+    public static <T, K> K fromJsonObject(String gsonString,
+                                          Class rawClz,
+                                          Type argType) {
         Type type = new ParameterizedTypeImpl(rawClz, new Type[]{argType});
         return gson.fromJson(gsonString, type);
     }
 
-    public static <T, K> K fromJsonObject(String gsonString, Class rawClz, Class<T> argClz) {
+    public static <T, K> K fromJsonObject(String gsonString,
+                                          Class rawClz,
+                                          Class<T> argClz) {
         Type type = new ParameterizedTypeImpl(rawClz, new Class[]{argClz});
         return gson.fromJson(gsonString, type);
     }
 
-    public static <T, K> K fromJsonArray(String gsonString, Class<K> rawClz, Class<T> argClz) {
+    public static <T, K> K fromJsonArray(String gsonString,
+                                         Class<K> rawClz,
+                                         Class<T> argClz) {
         // 生成List<T> 中的 List<T>
         Type listType = new ParameterizedTypeImpl(List.class, new Class[]{argClz});
         // 根据List<T>生成完整的Result<List<T>>
@@ -140,10 +174,12 @@ class ParameterizedTypeImpl
     private final Class  raw;
     private final Type[] args;
 
-    public ParameterizedTypeImpl(Class raw, Type[] args) {
-        this.raw = raw; this.args = args != null
-                                    ? args
-                                    : new Type[0];
+    public ParameterizedTypeImpl(Class raw,
+                                 Type[] args) {
+        this.raw = raw;
+        this.args = args != null
+                    ? args
+                    : new Type[0];
     }
 
     @Override

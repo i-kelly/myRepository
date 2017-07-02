@@ -15,7 +15,7 @@ import com.example.present.IPresenter;
 
 import java.lang.ref.WeakReference;
 
-public class MvpPresent<T extends IView>
+public abstract class MvpPresent<T extends IView>
         implements IPresenter<T> {
 
     private WeakReference<T> viewRef;
@@ -41,6 +41,7 @@ public class MvpPresent<T extends IView>
             viewRef = null;
         }
     }
+
 
     @UiThread
     public boolean isViewAttached() {

@@ -20,22 +20,29 @@ import com.example.present.contract.MultiTypeContract;
 public class MultiTypePresenter
         extends BasePresenter<MultiTypeContract.View>
         implements MultiTypeContract.Presenter {
+    private int tag = 0;
 
     @Override
     public void getData() {
         DataManager.getInstance()
-                   .getData(new HUDCallBack<MultiTypeBean>(this, Constants.SIIGEE) {
+                   .getData2(new HUDCallBack<MultiTypeBean>(this, Constants.SIIGEE) {
                        @Override
                        public void onSuccess(MultiTypeBean bean) {
                            if (isViewAttached()) {
                                getView().showBanner(bean.obj.bannerList);
                                getView().showAdList(bean.obj.adHomePageList);
                                getView().showBrandList(bean.obj.brandHomePageList);
-                               getView().showRdList(bean.obj.rdProductList); getView().onSuccess();
+                               getView().showRdList(bean.obj.rdProductList);
+                               getView().onSuccess();
                            }
                        }
-                   });
+                   }, tag);
     }
 
 
+   /* @Override
+    protected void cancelRequest() {
+        DataManager.getInstance()
+                   .cancelRequest(tag);
+    }*/
 }
