@@ -6,7 +6,7 @@ import android.support.multidex.MultiDex;
 
 import com.example.admin.manager.Router;
 
-import cn.bmob.v3.Bmob;
+//import cn.bmob.v3.Bmob;
 
 
 /**
@@ -34,7 +34,7 @@ public class BaseApplication extends Application {
         //在子线程中初始化
         Router.startInitializeService(this);
 
-        Bmob.initialize(this, "8a1ece2588c0b76a580631608d3943ad");
+//        Bmob.initialize(this, "8a1ece2588c0b76a580631608d3943ad");
     }
 
     protected void attachBaseContext(Context base) {

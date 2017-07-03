@@ -9,10 +9,11 @@ package com.example.model.bean;
  *  @描述：    TODO
  */
 
-import cn.bmob.v3.BmobObject;
+//import cn.bmob.v3.BmobObject;
 
 public class Person
-        extends BmobObject {
+//        extends BmobObject
+{
     private String name;
     private String address;
 

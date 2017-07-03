@@ -41,7 +41,7 @@ public class RxUtil {
                 return httpResponseFlowable.flatMap(new Function<BaseBean<T>, Flowable<T>>() {
                     @Override
                     public Flowable<T> apply(BaseBean<T> baseBean) {
-                        if ("0".equals(baseBean.getCode())) {
+                        if ("000".equals(baseBean.getCode())) {
                             return createData(baseBean.getData());
                         } else {
                             return Flowable.error(new Exception("服务器返回error"));

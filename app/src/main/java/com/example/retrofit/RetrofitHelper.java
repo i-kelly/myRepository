@@ -12,7 +12,12 @@ package com.example.retrofit;
 import com.example.model.bean.BaseBean;
 import com.example.model.bean.MultiTypeBean;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import io.reactivex.Flowable;
+import util.DetectTool;
+import util.GsonUtil;
 
 public class RetrofitHelper {
     private Apis mApis;
@@ -22,6 +27,18 @@ public class RetrofitHelper {
     }
 
     public Flowable<BaseBean<MultiTypeBean>> getData() {
-        return mApis.getMultiTypeData();
+        Map<String, String> par = new LinkedHashMap<>();
+        par.put("m", DetectTool.getType());
+        par.put("u", DetectTool.getToken());
+        par.put("v", DetectTool.getVersionName());
+        par.put("i", DetectTool.getIMEI());
+        par.put("t", DetectTool.getTS());
+
+        String              si   = DetectTool.getSign(par);
+        String              pa   = DetectTool.getPara(GsonUtil.mapToJson(par));
+        Map<String, String> par2 = new LinkedHashMap<>();
+        par2.put("si", si);
+        par2.put("pa", pa);
+        return mApis.getMultiTypeData(par2);
     }
 }

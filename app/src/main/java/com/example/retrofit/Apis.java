@@ -14,17 +14,20 @@ import com.example.base.BaseMainApp;
 import com.example.model.bean.BaseBean;
 import com.example.model.bean.MultiTypeBean;
 
+import java.util.Map;
+
 import io.reactivex.Flowable;
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 public interface Apis {
-    String HOST = BaseMainApp.getInstance()
-                             .getMainHostUrl(BaseApplication.getInstance())+"p/p2_002";
+    String HOST  = BaseMainApp.getInstance()
+                              .getMainHostUrl(BaseApplication.getInstance());
+    String HOST2 = "http://news-at.zhihu.com/api/4/";
 
-    /**
-     * 技术文章列表
-     */
-    @POST()
-    Flowable<BaseBean<MultiTypeBean>> getMultiTypeData();
+    @FormUrlEncoded
+    @POST("p/p2_002")
+    Flowable<BaseBean<MultiTypeBean>> getMultiTypeData(@FieldMap Map<String, String> params);
 
 }

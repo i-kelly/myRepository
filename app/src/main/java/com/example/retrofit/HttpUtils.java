@@ -52,20 +52,13 @@ public class HttpUtils {
         return mInstance;
     }
 
-    Retrofit.Builder provideRetrofitBuilder() {
-        return new Retrofit.Builder();
+
+    Retrofit provideRetrofit() {
+        return createRetrofit(provideClient(), Apis.HOST);
     }
 
-    OkHttpClient.Builder provideOkHttpBuilder() {
-        return new OkHttpClient.Builder();
-    }
-
-    Retrofit provideMyRetrofit() {
-        return createRetrofit(provideRetrofitBuilder(), provideClient(provideOkHttpBuilder()),
-                              Apis.HOST);
-    }
-
-    OkHttpClient provideClient(OkHttpClient.Builder builder) {
+    OkHttpClient provideClient() {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
         if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
@@ -129,16 +122,15 @@ public class HttpUtils {
     }
 
     public Apis provideMyService() {
-        return provideMyRetrofit().create(Apis.class);
+        return provideRetrofit().create(Apis.class);
     }
 
-    private Retrofit createRetrofit(Retrofit.Builder builder,
-                                    OkHttpClient client,
+    private Retrofit createRetrofit(OkHttpClient client,
                                     String url) {
-        return builder.baseUrl(url)
-                      .client(client)
-                      .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                      .addConverterFactory(GsonConverterFactory.create())
-                      .build();
+        return new Retrofit.Builder().baseUrl(url)
+                                     .client(client)
+                                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                                     .addConverterFactory(GsonConverterFactory.create())
+                                     .build();
     }
 }

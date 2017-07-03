@@ -15,8 +15,6 @@ import com.example.present.contract.MultiTypeContract;
 import com.example.retrofit.HttpUtils;
 import com.example.retrofit.RetrofitHelper;
 
-import io.reactivex.functions.Function;
-
 public class MultiPresenter
         extends RxPresenter<MultiTypeContract.View> {
 
@@ -29,23 +27,24 @@ public class MultiPresenter
     public void getData() {
         addSubscribe(mRetrofitHelper.getData()
                                     .compose(RxUtil.<BaseBean<MultiTypeBean>>rxSchedulerHelper())
-                                    .map(new Function<BaseBean<MultiTypeBean>, MultiTypeBean>() {
-                                        @Override
-                                        public MultiTypeBean apply(BaseBean<MultiTypeBean> baseBean) {
-                                            MultiTypeBean multiTypeBean = baseBean.getData();
-                                            return multiTypeBean;
-                                        }
-                                    })
+                                    .compose(RxUtil.<MultiTypeBean>handleResult())
+//                                    .map(new Function<MultiTypeBean, MultiTypeBean>() {
+//                                        @Override
+//                                        public MultiTypeBean apply(BaseBean<MultiTypeBean> baseBean) {
+//                                            MultiTypeBean multiTypeBean = baseBean.getData();
+//                                            return multiTypeBean;
+//                                        }
+//                                    })
                                     .subscribeWith(new CommonSubscriber<MultiTypeBean>(getView()) {
                                         @Override
                                         public void onNext(MultiTypeBean bean) {
-                                            if (isViewAttached()) {
+//                                            if (isViewAttached()) {
                                                 getView().showBanner(bean.obj.bannerList);
                                                 getView().showAdList(bean.obj.adHomePageList);
                                                 getView().showBrandList(bean.obj.brandHomePageList);
                                                 getView().showRdList(bean.obj.rdProductList);
                                                 getView().onSuccess();
-                                            }
+//                                            }
                                         }
                                     }));
     }
